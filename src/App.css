@@ -1,0 +1,426 @@
+@import url('https://fonts.googleapis.com/css2?family=Shantell+Sans:ital,wght@1,300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Spline+Sans+Mono:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Quintessential&display=swap');
+
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  outline: none;
+  font-family: Shantell Sans, cursive;
+  /* font-family: Arial, Helvetica, sans-serif; */
+  /* font-family: Spline Sans Mono, monospace; */
+  /* font-family: 'Quintessential', cursive; */
+  color: #000000;
+
+}
+
+html {
+  font-size: 10px;
+  overflow: hidden;
+}
+
+.BoardContainer {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  background-image: linear-gradient(90deg, #b7b6bb, #b7b6bb);
+  align-items: center;
+  -webkit-transition: background-image 0.2s ease-in-out;
+  transition: background-image 0.2s ease-in-out;
+}
+
+
+.BoardTitle {
+  position: absolute;
+  top: 5px;
+  width: fit-content;
+  padding: 0.2rem;
+  font-size: 4rem;
+  text-align: center;
+  border-radius: 0px;
+  background-color: transparent;
+  border: 0.2rem solid transparent;
+  outline: none;
+}
+
+.NoteContainer {
+  position: absolute;
+  left: 50px;
+  right: 50px;
+  width: 400px;
+  height: 500px;
+  background-color: #ffb100;
+  border-radius: 25px;
+  -webkit-box-shadow: 8px 8px 24px 0px #483948;
+  -moz-box-shadow: 8px 8px 24px 0px #483948;
+  box-shadow: 8px 8px 24px 0px #483948;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  transition-property: width, height;
+  transition-duration: 0.15s;
+  transition-timing-function: ease-in-out;
+}
+
+.RemoveNoteBtn,
+.NoteSettingsBtn {
+  padding: 0.2px;
+  font-size: 2rem;
+  background-color: transparent;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  color: white;
+  padding: 0.3rem;
+  border-radius: 5px;
+  transition: all 0.1s ease-in-out;
+}
+
+.TitleContainer {
+  width: 90%;
+  height: 10%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.TitleInput {
+  width: 100%;
+  padding: 0.2rem;
+  font-size: 2.5rem;
+  text-transform: uppercase;
+  text-align: center;
+  border-radius: 0px;
+  background-color: transparent;
+  border: 0.2rem solid transparent;
+  outline: none;
+}
+
+.AddNewContainer {
+  width: 90%;
+  height: 15%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.NewInput {
+  width: 85%;
+  height: 100%;
+  padding: 0.7rem;
+  font-size: 1.5rem;
+  margin-right: 0.5rem;
+  text-align: left;
+  border-radius: 0px;
+  background-color: transparent;
+  border: 0.2rem solid transparent;
+  transition: border 0.1s ease-in-out;
+  resize: none;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.NewInput::-webkit-scrollbar {
+  display: none;
+}
+
+.NewButton {
+  font-size: 1.5rem;
+  padding: 0.2rem;
+  border-radius: 5px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.ListContainer {
+  width: 90%;
+  height: 75%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.ListContainer::-webkit-scrollbar {
+  display: none;
+}
+
+
+.ListContainer ul {
+  width: 100%;
+  height: 100%;
+  list-style: none;
+  color: black;
+}
+
+.ListContainer li {
+  min-height: 2rem;
+  padding: 0.3rem;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: black
+}
+
+.AddNewNoteBtn,
+.SettingsBoardBtn {
+  position: absolute;
+  padding: 0.2px;
+  font-size: 2rem;
+  left: 10px;
+  bottom: 10px;
+  background-color: transparent;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  color: white;
+  background-color: rgba(59, 58, 59, 0.4);
+  padding: 0.3rem;
+  border-radius: 5px;
+  transition: all 0.1s ease-in-out;
+}
+
+.SettingsBoardBtn {
+  left: 125px;
+}
+
+.AddNewNoteBtn:hover,
+.SettingsBoardBtn:hover {
+  background-color: rgba(59, 58, 59, 0.75);
+  transition: all 0.1s ease-in-out;
+
+}
+
+.SettingsNoteContainer.Off {
+  position: fixed;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column;
+  padding: 0.5rem;
+  right: 0px;
+  top: 0px;
+  width: 300px;
+  height: 100vh;
+  background-color: rgba(59, 58, 59, 0.85);
+  -webkit-transition: all 0.3s ease-in-out;
+  -o-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+  -webkit-transform: translate(100%);
+  -ms-transform: translate(100%);
+  transform: translate(100%);
+  overflow-y: scroll;
+  overflow-x: hidden;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  z-index: 100;
+}
+
+.SettingsNoteContainer.On {
+  position: fixed;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column;
+  right: 0px;
+  top: 0px;
+  width: 300px;
+  height: 100vh;
+  background-color: rgba(59, 58, 59, 0.85);
+  border-radius: 10px 0 0 10px;
+  -webkit-transition: all 0.3s ease-in-out;
+  -o-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+  -webkit-transform: translate(0%);
+  -ms-transform: translate(0%);
+  transform: translate(0%);
+  overflow-y: scroll;
+  overflow-x: hidden;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  z-index: 100;
+}
+
+.SettingsNoteContainer.On::-webkit-scrollbar,
+.SettingsNoteContainer.Off::-webkit-scrollbar {
+  display: none;
+}
+
+.CloseSettingNoteBtn {
+  position: relative;
+  padding: 0.2px;
+  font-size: 2rem;
+  top: 5px;
+  right: 120px;
+  background-color: transparent;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  color: white;
+  padding: 0.3rem;
+  border-radius: 5px;
+  transition: all 0.1s ease-in-out;
+}
+
+.SettingsSectionsContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 90%;
+  border-bottom: 0.2rem solid white;
+  padding: 0.5rem 0 0.5rem 0;
+}
+
+.SettingsSectionsTitle {
+  color: white;
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.SettingsSectionsContent {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.ColorContainer {
+  height: fit-content;
+  width: 90%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin: 1rem 0rem 0.5rem 0.5rem
+}
+
+.ColorTitle {
+  font-size: 1.8rem;
+  color: white;
+  margin-right: 2rem;
+}
+
+.ColorBtn {
+  width: 50px;
+  height: 25px;
+  border: 0.4rem solid black;
+  border-radius: 5px;
+  background-color: #b7b6bb;
+  margin-right: 0.5rem;
+}
+
+.ColorPicker.On {
+  display: flex;
+}
+
+.ColorPicker.Off {
+  display: none;
+
+}
+
+
+.DimentionContainer {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: 0.8rem;
+}
+
+.HorizontalSettings {
+  font-size: 1.8rem;
+  width: 50%;
+  height: 80px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
+
+.HorizontalSlider {
+  margin-bottom: 0.5rem;
+}
+
+.HorizontalInput {
+  text-align: center;
+  color: white;
+  width: 55%;
+  padding: 0.5rem 0 0.5rem 0;
+  background-color: transparent;
+  border: 0.1rem solid whitesmoke;
+  border-radius: 10px;
+  outline: none;
+}
+
+.LayerContainer {
+  width: 50%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: 0.8rem;
+}
+
+.LayerBtn {
+  font-size: 2rem;
+  background-color: transparent;
+  font-weight: bold;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  color: white;
+  padding: 0.3rem;
+  border-radius: 5px;
+  transition: all 0.1s ease-in-out;
+}
+
+
+.DropSelection {
+  text-align: center;
+  width: 140px;
+  height: 40px;
+  padding: 0.2rem;
+  font-size: 1.8rem;
+  background-color: transparent;
+  font-weight: bold;
+  outline: none;
+  cursor: pointer;
+  color: white;
+  padding: 0.3rem;
+  border: 0.1rem solid whitesmoke;
+  border-radius: 10px;
+}
+
+.DropSelection option {
+  padding: 0.2rem;
+  font-size: 2rem;
+  background-color: rgba(59, 58, 59);
+  cursor: pointer;
+  color: white;
+  padding: 0.3rem;
+  border-radius: 5px;
+}
+
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}

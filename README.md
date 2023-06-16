@@ -1,5 +1,5 @@
 # myBoard 📔
-Check it out ![mynoteboard.pl](https://mynoteboard.pl/)
+Check it out https://mynoteboard.pl/
 
 ## Table of Contents
 
@@ -16,7 +16,7 @@ Check it out ![mynoteboard.pl](https://mynoteboard.pl/)
 ![Alt text](https://github.com/FastRabbitON/FastRabbitON/blob/main/GifBoard.gif)
 
 ## How to run
-1) Online ![here](https://mynoteboard.pl)
+1) Online https://mynoteboard.pl
 2) Local:
  1. Download the entire repository
  2. Unzip in a folder

@@ -13,6 +13,8 @@ Check it out https://mynoteboard.pl/
 ## General Information
  Fully customizable board for storing notes and widgets. The project is under development and it is planned to add a calendar, calculator, weather, etc. But you can already use it, which I encourage you to do. All data is stored in the browser's cache, so the application ensures the privacy of your data.
 
+Project is not adjust to touch screen devices yet
+
 ![Alt text](https://github.com/FastRabbitON/FastRabbitON/blob/main/GifBoard.gif)
 
 ## How to run

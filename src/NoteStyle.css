@@ -1,0 +1,258 @@
+.NoteContainer {
+    position: absolute;
+    left: 50px;
+    right: 50px;
+    width: 400px;
+    height: 500px;
+    min-width: 15rem;
+    min-height: 20rem;
+    background-color: #ffb100;
+    border-radius: 25px;
+    -webkit-box-shadow: 8px 8px 24px 0px #483948;
+    -moz-box-shadow: 8px 8px 24px 0px #483948;
+    box-shadow: 8px 8px 24px 0px #483948;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+}
+
+.TitleContainer {
+    width: 90%;
+    height: fit-content;
+    min-height: 1rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.TitleInput {
+    width: 100%;
+    height: fit-content;
+    padding: 0.5rem;
+    font-size: 2.5rem;
+    text-align: center;
+    border-radius: 0px;
+    background-color: transparent;
+    border: 0.2rem solid transparent;
+    outline: none;
+}
+
+.AddNewContainer {
+    width: 90%;
+    height: fit-content;
+    min-height: 15%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.NewInput {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 85%;
+    height: 100%;
+    min-height: 15%;
+    padding: 0.5rem;
+    font-size: 1.5rem;
+    margin-right: 0.5rem;
+    text-align: left;
+    border-radius: 0px;
+    background-color: transparent;
+    border: 0.2rem solid transparent;
+    transition: border 0.1s ease-in-out;
+    resize: none;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.NewInput::-webkit-scrollbar {
+    display: none;
+}
+
+
+.ListContainer {
+    width: 90%;
+    height: fit-content;
+    min-height: 5rem;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.ListContainer::-webkit-scrollbar {
+    display: none;
+}
+
+
+.ListContainer ul {
+    width: 100%;
+    height: 100%;
+    list-style: none;
+    color: black;
+}
+
+.ListContainer li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 2rem;
+    padding: 0.3rem;
+    font-size: 1.5rem;
+    cursor: default;
+    color: black
+}
+
+.ListContainer li div {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    width: fit-content;
+    height: 100%;
+    margin-left: 1.5rem;
+}
+
+.ListContainer li button {
+    padding: 0.2rem;
+    font-size: 2rem;
+    background-color: transparent;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.3rem;
+    transition: all 0.2s ease-in-out;
+    opacity: 0.35;
+}
+
+.ListContainer li:hover button {
+    transition: all 0.2s ease-in-out;
+    opacity: 1;
+
+}
+
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+
+
+.TopSectionNote {
+    width: 100%;
+    height: 4rem;
+    padding: 0 0.5rem 0.5rem 0.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+}
+
+.RemoveNoteBtn,
+.SettingsNoteBtn {
+    padding: 0.2px;
+    font-size: 2rem;
+    background-color: transparent;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    color: white;
+    padding: 0.3rem;
+    transition: all 0.1s ease-in-out;
+    height: 100%;
+    width: 5rem;
+
+}
+
+.RemoveNoteBtn div,
+.SettingsNoteBtn div {
+    font-size: 2rem;
+    opacity: 0.5;
+    transition: all 0.2s linear
+}
+
+.RemoveNoteBtn:hover div,
+.SettingsNoteBtn:hover div {
+    font-size: 2rem;
+    opacity: 1;
+    transition: all 0.2s linear
+}
+
+
+.MoveNote {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    cursor: move;
+    border-radius: 0 0 5px 5px;
+    text-align: center;
+
+}
+
+.MoveNote div {
+    width: fit-content;
+    height: fit-content;
+    font-size: 1.5rem;
+    opacity: 0.5;
+    transition: all 0.2s linear;
+}
+
+.MoveNote:hover div {
+    opacity: 1;
+    transition: all 0.2s linear;
+}
+
+
+.ResizeNote {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: absolute;
+    padding: 0.3rem;
+    bottom: 0;
+    right: 0;
+    width: 35px;
+    height: 35px;
+    cursor: nw-resize;
+    border-left: 0.1rem solid black;
+    border-top: 0.1rem solid black;
+    border-radius: 10px 0 0 0;
+}
+
+.ResizeNote div {
+    width: fit-content;
+    height: fit-content;
+    font-size: 2rem;
+    opacity: 0.5;
+    transition: all 0.2s linear;
+}
+
+.ResizeNote:hover div {
+    opacity: 1;
+    transition: all 0.2s linear;
+}
+
+
+.NowEditInfo {
+    padding: 1rem;
+    font-size: 2.2rem;
+    color: white;
+    font-weight: bolder;
+    text-align: center;
+}

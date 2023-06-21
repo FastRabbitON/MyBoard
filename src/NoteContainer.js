@@ -1,29 +1,38 @@
 import { useState, useEffect } from 'react';
 import NoteSettings from './NoteSettings';
 
+import "./NoteStyle.css"
 
-const NoteContainer = () => {
+const NoteContainer = ({
+    setActiveNoteSettings,
+    activeNoteSettings,
+    activeClockSettings,
+    setActiveClockSettings,
+    activeBoardSettings,
+    setActiveBoardSettings
+
+}) => {
 
 
 
     //VARIABLES
     const [renderNote, setRenderNote] = useState([]);
     const [contentInput, setContentInput] = useState([]);
+
     const [nowActiveNoteId, setNowActiveNoteId] = useState(null);
+    const [previousNoteId, setPreviousNoteId] = useState(null);
+    const [nowActiveTitle, setNowActiveTitle] = useState("myNote")
 
-    const [nowActiveTitle, setNowActiveTitle] = useState("MYNOTE")
 
-    const [activeNoteSettings, setActiveNoteSettings] = useState(false);
+    const [noteColor, setNoteColor] = useState("#ffb100");
+    const [fontColor, setFontColor] = useState("#000000");
+    const [accentColor, setAccentColor] = useState('#4b4d4f');
 
-    const [newNoteColor, setNewNoteColor] = useState("#ffb100");
-    const [newFontColor, setNewFontColor] = useState("#000000");
-    const [newAccentColor, setNewAccentColor] = useState('#4b4d4f');
+    const [sizeX, setSizeX] = useState(400);
+    const [sizeY, setSizeY] = useState(500);
 
-    const [newSizeX, setNewSizeX] = useState(400);
-    const [newSizeY, setNewSizeY] = useState(500);
-
-    const [positionFromLeft, setPositionFromLeft] = useState(0);
-    const [positionFromTop, setPositionFromTop] = useState(0)
+    const [positionFromLeft, setPositionFromLeft] = useState(10);
+    const [positionFromTop, setPositionFromTop] = useState(10)
 
     const [noteTitleSize, setNoteTitleSize] = useState(25);
     const [noteContentSize, setNoteContentSize] = useState(15);
@@ -32,7 +41,7 @@ const NoteContainer = () => {
 
     const [noteFontStyle, setNoteFontStyle] = useState("Shantell Sans, cursive")
 
-    const [isCrossed, setIsCrossed] = useState(true)
+
 
 
     // SAVE TO LOALSTORAGE
@@ -47,31 +56,40 @@ const NoteContainer = () => {
 
         const newNote = {
             id: Date.now(),
-            notecolor: newNoteColor,
-            fontcolor: newFontColor,
-            accentcolor: newAccentColor,
-            width: newSizeX,
-            height: newSizeY,
-            titlesize: noteTitleSize,
-            contentsize: noteContentSize,
-            positionleft: positionFromLeft,
-            positiontop: positionFromTop,
-            title: 'MyNote',
+            noteColor: "#ffb100",
+            fontcolor: "#000000",
+            accentcolor: '#4b4d4f',
+            width: 350,
+            height: 400,
+            titlesize: 20,
+            contentsize: 15,
+            positionleft: 10,
+            positiontop: 10,
+            title: 'myNote',
             content: [],
-            layer: layer,
-            fontstyle: noteFontStyle
+            layer: 1,
+            fontstyle: "Shantell Sans, cursive"
         }
 
         setRenderNote([...renderNote, newNote])   //Rozpakowuje dotychzasową tablicę i dodaje do niej nowy obiekt z atrybutami
 
         localStorage.setItem('RenderNotes', JSON.stringify([...renderNote, newNote])); //Aktualizacja w LocalStore
+
+        if (activeNoteSettings === true) {
+            setActiveNoteSettings(false)
+        }
+
     };
 
     // REMOVE PARTICULARLY NOTE
     const removeNote = (id) => { //Funkcja usuwająca z aktualnej tablicy obiekt przez filtrowanie po id
         const updatedNote = renderNote.filter((note) => note.id !== id);
         setRenderNote(updatedNote);
-        localStorage.setItem('RenderNotes', JSON.stringify([updatedNote])); //Aktualizacja w LocalStore
+        localStorage.setItem('RenderNotes', JSON.stringify(updatedNote)); //Aktualizacja w LocalStore
+
+        if (activeNoteSettings === true) {
+            setActiveNoteSettings(false)
+        }
     };
 
 
@@ -116,7 +134,6 @@ const NoteContainer = () => {
 
         setRenderNote(updatedContent); // Ustawienie stanu renderNote na zaktualizowaną tablicę notatek.
         localStorage.setItem('RenderNotes', JSON.stringify(updatedContent)); // Zaktualizuj dane w LocalStorage z zaktualizowaną tablicą notatek.
-
     };
 
 
@@ -136,52 +153,48 @@ const NoteContainer = () => {
 
     // OPEN SETTINGS WINDOW, ACTIVE NOTE TO CHANGE SETTINGS, INPORT SETTINGS FROM ACTIVE NOTE, GET TITLE OF EDIT NOTE
     const NoteSettingsWindow = (id, title) => {
-        setActiveNoteSettings(current => !current)
-        setNowActiveNoteId(id)
         setNowActiveTitle(title)
 
-        const InputNoteColor = document.getElementById(id);
-        if (InputNoteColor) {
-            const bgColor = window.getComputedStyle(InputNoteColor).getPropertyValue("background-color");
-            const rgbColor = bgColor.match(/\d+/g); // extracts the rgb values as an array of strings
-            const hexColor = "#" + rgbColor.map(c => parseInt(c).toString(16).padStart(2, '0')).join(''); // converts the rgb values to a hex color code
-            setNewNoteColor(hexColor);
+        if (nowActiveNoteId !== id) {
+            setActiveNoteSettings(current => !current);
+            setActiveNoteSettings(current => !current)
+            setNowActiveNoteId(id)
         }
 
-        const InputFontColor = document.getElementById(id);
-        if (InputFontColor) {
-            const bgColor = window.getComputedStyle(InputFontColor).getPropertyValue("color");
-            const rgbColor = bgColor.match(/\d+/g); // extracts the rgb values as an array of strings
-            const hexColor = "#" + rgbColor.map(c => parseInt(c).toString(16).padStart(2, '0')).join(''); // converts the rgb values to a hex color code
-            setNewFontColor(hexColor);
+        if (nowActiveNoteId === id) {
+            setActiveNoteSettings(current => !current)
+            setNowActiveNoteId(id)
         }
 
-        const InputSizeX = document.getElementById(id);
-        if (document.getElementById(id)) {
-            const change = parseFloat(window.getComputedStyle(InputSizeX).getPropertyValue("width").replace(/[^\d.-]/g, ''));
-            setNewSizeX(change);
+        if (activeClockSettings === true) {
+            setActiveClockSettings(false)
         }
 
-        const InputSizeY = document.getElementById(id);
-        if (document.getElementById(id)) {
-            const change = parseFloat(window.getComputedStyle(InputSizeY).getPropertyValue("height").replace(/[^\d.-]/g, ''));
-            setNewSizeY(change);
+        if (activeBoardSettings === true) {
+            setActiveBoardSettings(false)
         }
 
-        if (document.getElementById(id)) {
-            const change = document.getElementById(id).style.zIndex;
-            setLayer(change);
+        const Note = renderNote.find(note => note.id === id);
+        if (Note) {
+            const { noteColor, fontcolor, accentcolor, titlesize, contentsize, fontstyle, layer } = Note;
+            setNoteColor(noteColor);
+            setFontColor(fontcolor);
+            setAccentColor(accentcolor);
+            setNoteTitleSize(titlesize);
+            setNoteContentSize(contentsize);
+            setNoteFontStyle(fontstyle)
+            setLayer(layer);
         }
-
     }
+
+
+
+
 
 
 
     const [isDragging, setIsDragging] = useState(false);
     const [offset, setOffset] = useState({ x: 0, y: 0 });
-
-
-
 
     // UPDATE POSITION ATTRIBUTES FOR PARTICULAR NOTE
     const changePositionAttribute = (id, newPosition) => {
@@ -199,30 +212,19 @@ const NoteContainer = () => {
     };
 
 
-    const [initialPositions, setInitialPositions] = useState({});
-
-    //Zmienić, żeby pobierało ID tylko po kliknięciu na diva nic poza tym
     const handleMouseDown = (event, id) => {
         setNowActiveNoteId(id);
         setIsDragging(true);
 
         const { clientX, clientY } = event;
-        const left = positionFromLeft;
-        const top = positionFromTop;
-        const x = clientX - left;
-        const y = clientY - top;
+        const note = renderNote.find(note => note.id === id);
+        const x = clientX - note.positionleft;
+        const y = clientY - note.positiontop;
         setOffset({ x, y });
 
-        console.log(`Nacisnąłeś notatkę o id ${id}`);
-
-        // Zaktualizuj pozycję startową dla klikniętej notatki
-        setInitialPositions((prevState) => ({
-            ...prevState,
-            [id]: { x: positionFromLeft, y: positionFromTop },
-        }));
-
-        console.log(`${initialPositions.x}, ${initialPositions.y}`)
+        console.log(`Nacisnąłeś note o id ${id}`);
     };
+
 
     useEffect(() => {
         const handleMouseMove = (event) => {
@@ -244,13 +246,17 @@ const NoteContainer = () => {
             setOffset({ x: 0, y: 0 });
         };
 
+
         window.addEventListener('mousemove', handleMouseMove);
         window.addEventListener('mouseup', handleMouseUp);
+
         return () => {
             window.removeEventListener('mousemove', handleMouseMove);
             window.removeEventListener('mouseup', handleMouseUp);
         };
     }, [isDragging, offset, nowActiveNoteId, setPositionFromTop, setPositionFromLeft]);
+
+
 
 
 
@@ -267,16 +273,23 @@ const NoteContainer = () => {
         localStorage.setItem("RenderNotes", JSON.stringify(updatedAttributes));
     };
 
+
+
     const [isResizing, setIsResizing] = useState(false);
     const [resizeStartX, setResizeStartX] = useState(0);
     const [resizeStartY, setResizeStartY] = useState(0);
 
+    //RESIZE NOTE
     const handleResizeMouseDown = (event, id) => {
         setNowActiveNoteId(id);
         event.preventDefault();
         setIsResizing(true);
+
+        const note = renderNote.find(note => note.id === id);
         setResizeStartX(event.clientX);
         setResizeStartY(event.clientY);
+        setSizeX(note.width);
+        setSizeY(note.height)
         console.log(`Div Down`);
     };
 
@@ -297,10 +310,10 @@ const NoteContainer = () => {
     const handleResizeMouseMove = (event) => {
         const offsetX = event.clientX - resizeStartX;
         const offsetY = event.clientY - resizeStartY;
-        const newWidth = newSizeX + offsetX;
-        const newHeight = newSizeY + offsetY;
-        setNewSizeX(newWidth);
-        setNewSizeY(newHeight);
+        const newWidth = sizeX + offsetX;
+        const newHeight = sizeY + offsetY;
+        setSizeX(newWidth);
+        setSizeY(newHeight);
         changeSizeAttribute(nowActiveNoteId, newWidth, newHeight);
         console.log(`Div resize`);
     };
@@ -311,6 +324,7 @@ const NoteContainer = () => {
     };
 
 
+    //MOVE LI UP
     const moveContentUp = (noteId, index) => {
         const updatedRenderNote = renderNote.map((note) => {
             if (note.id === noteId) {
@@ -329,6 +343,8 @@ const NoteContainer = () => {
         localStorage.setItem('RenderNotes', JSON.stringify(updatedRenderNote));
     };
 
+
+    // MOVE LI DOWN
     const moveContentDown = (noteId, index) => {
         const updatedRenderNote = renderNote.map((note) => {
             if (note.id === noteId) {
@@ -348,34 +364,19 @@ const NoteContainer = () => {
     };
 
 
-    const toggleTextDecoration = (noteId, index) => {
-        const updatedRenderNote = renderNote.map((note) => {
-            if (note.id === noteId) {
-                const updatedContent = [...note.content];
-                const content = updatedContent[index];
-                content.isCrossed = !content.isCrossed;
-                return { ...note, content: updatedContent };
-            }
-            return note;
-        });
-
-        setRenderNote(updatedRenderNote);
-        // ...
-    };
-
 
     return (
 
         <div>
             <NoteSettings
-                newNoteColor={newNoteColor}
-                setNewNoteColor={setNewNoteColor}
+                noteColor={noteColor}
+                setNoteColor={setNoteColor}
 
-                newFontColor={newFontColor}
-                setNewFontColor={setNewFontColor}
+                fontColor={fontColor}
+                setFontColor={setFontColor}
 
-                newAccentColor={newAccentColor}
-                setNewAccentColor={setNewAccentColor}
+                accentColor={accentColor}
+                setAccentColor={setAccentColor}
 
 
                 noteTitleSize={noteTitleSize}
@@ -399,13 +400,10 @@ const NoteContainer = () => {
                 renderNote={renderNote}
                 setRenderNote={setRenderNote}
 
-                NoteSettingsWindow={NoteSettingsWindow}
-
                 nowActiveTitle={nowActiveTitle}
-
             />
 
-            <button className='AddNewNoteBtn' onClick={addNewNote}>Add New</button>
+            <button className='AddNewNoteBtn' onClick={addNewNote}>Add Note</button>
 
             {renderNote.map((note) => (
 
@@ -418,7 +416,7 @@ const NoteContainer = () => {
                         left: `${note.positionleft}px`,
                         top: `${note.positiontop}px`,
 
-                        backgroundColor: note.notecolor,
+                        backgroundColor: note.noteColor,
                         width: `${note.width}px`,
                         height: `${note.height}px`,
                         boxShadow: `8px 8px 24px 0px ${note.accentcolor}`,
@@ -426,15 +424,13 @@ const NoteContainer = () => {
                         position: 'absolute'
                     }}>
 
-                    <div className="TopSection"
+                    <div className="TopSectionNote">
 
-                    >
-
-                        <button className='RemoveNoteBtn' onClick={() => removeNote(note.id)} style={{ borderBottom: `0.1rem solid ${note.accentcolor}`, }}>
+                        <button className='RemoveNoteBtn' onClick={() => removeNote(note.id)} >
                             <div style={{ color: note.accentcolor }}>X</div>
                         </button>
 
-                        <div className="MoveContainer"
+                        <div className="MoveNote"
                             onMouseDown={(event) => handleMouseDown(event, note.id)}
                             style={{
                                 borderLeft: `0.1rem solid ${note.accentcolor}`,
@@ -445,13 +441,12 @@ const NoteContainer = () => {
                             <div style={{ color: note.accentcolor, fontFamily: note.fontstyle, userSelect: 'none', }}>Move Me</div>
                         </div>
 
-                        <button className='NoteSettingsBtn' onClick={() => NoteSettingsWindow(note.id, note.title)} style={{ borderBottom: `0.1rem solid ${note.accentcolor}`, }}>
+                        <button className='SettingsNoteBtn' onClick={() => NoteSettingsWindow(note.id, note.title)} >
                             <div style={{ color: note.accentcolor }}>⚙</div>
                         </button>
 
                     </div>
 
-                    <div className="EmptySpaceContainer"></div>
 
                     <div className="TitleContainer">
 
@@ -474,6 +469,7 @@ const NoteContainer = () => {
                     <div className="AddNewContainer" style={{ borderBottom: `0.1rem solid ${note.accentcolor}`, height: `${note.contentsize}px` }}>
 
                         <textarea
+                            // placeholder='Type anything and press Enter'
                             className='NewInput'
                             spellCheck="false"
                             type="text"
@@ -552,13 +548,13 @@ const NoteContainer = () => {
 
                     </div>
 
-                    <div className="ResizeContainer"
+                    <div className="ResizeNote"
                         onMouseDown={(event) => handleResizeMouseDown(event, note.id)}
                         style={{
                             borderLeft: `0.1rem solid ${note.accentcolor}`,
                             borderTop: `0.1rem solid ${note.accentcolor}`
                         }}>
-                        <div style={{ color: note.accentcolor, fontFamily: note.fontstyle, userSelect: 'none' }}>Resie Me</div>
+                        <div style={{ color: note.accentcolor, fontFamily: note.fontstyle, userSelect: 'none' }}>⤡</div>
                     </div>
 
                 </div>

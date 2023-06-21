@@ -9,7 +9,14 @@ const BoardSettings = ({
     boardTitleColor,
     setBoardTitleColor,
     boardFontStyle,
-    setBoardFontStyle
+    setBoardFontStyle,
+    activeBoardSettings,
+    setActiveBoardSettings,
+
+    activeNoteSettings,
+    setActiveNoteSettings,
+    activeClockSettings,
+    setActiveClockSettings
 }) => {
 
     //VARIABLES
@@ -28,13 +35,20 @@ const BoardSettings = ({
         return localDataTitle ? JSON.parse(localDataTitle) : "#fc466b";
     })
 
-    const [activeBoardSettings, setActiveBoardSettings] = useState(false);
-
 
 
     //OPEN WINDOWS
     const BoardSettingsWindow = () => {
+
         setActiveBoardSettings(current => !current)
+
+        if (activeNoteSettings === true) {
+            setActiveNoteSettings(false)
+        }
+
+        if (activeClockSettings === true) {
+            setActiveClockSettings(false)
+        }
     }
 
     const [isActiveBackgroundBoard, setIsActiveBckgroundBoard] = useState(false);
@@ -118,7 +132,7 @@ const BoardSettings = ({
 
             <button className='SettingsBoardBtn' onClick={BoardSettingsWindow}>⚙</button>
 
-            <div className={`SettingsNoteContainer ${activeBoardSettings ? "On" : "Off"}`}>
+            <div className={`SettingsContainer ${activeBoardSettings ? "On" : "Off"}`}>
                 <button className="CloseSettingNoteBtn" onClick={BoardSettingsWindow}>X</button>
 
                 <div className="SettingsSectionsContainer">

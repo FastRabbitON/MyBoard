@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ChromePicker } from 'react-color';
+import { ChromePicker, } from 'react-color';
 
 
 
@@ -8,12 +8,13 @@ const NoteSettings = ({
     setRenderNote,
     nowActiveNoteId,
     activeNoteSettings,
-    newNoteColor,
-    setNewNoteColor,
-    newFontColor,
-    setNewFontColor,
-    newAccentColor,
-    setNewAccentColor,
+    setActiveNoteSettings,
+    noteColor,
+    setNoteColor,
+    fontColor,
+    setFontColor,
+    accentColor,
+    setAccentColor,
     noteTitleSize,
     setNoteTitleSize,
     noteContentSize,
@@ -22,9 +23,12 @@ const NoteSettings = ({
     setLayer,
     noteFontStyle,
     setNoteFontStyle,
-    NoteSettingsWindow,
     nowActiveTitle
 }) => {
+
+    const CloseSettingsWindow = () => {
+        setActiveNoteSettings(current => !current);
+    }
 
 
     // UPDATE ATTRIBUTE FOR PARTICULARLY NOTE
@@ -59,23 +63,26 @@ const NoteSettings = ({
 
 
     // CHANGE NOTE COLOR
-    const NoteColorChange = (e) => {
-        const newColor = e.hex;
-        setNewNoteColor(newColor);
-        changeNoteAttribute(nowActiveNoteId, 'notecolor', newColor);
-    }
+    const NoteColorChange = (color) => {
+        const { r, g, b, a } = color.rgb;
+        const newColor = `rgba(${r}, ${g}, ${b}, ${a})`;
+        setNoteColor(newColor);
+        changeNoteAttribute(nowActiveNoteId, 'noteColor', newColor);
+    };
 
     // CHANGE FONT COLOR
-    const FontColorChange = (e) => {
-        const newColor = e.hex;
-        setNewFontColor(newColor);
+    const FontColorChange = (color) => {
+        const { r, g, b, a } = color.rgb;
+        const newColor = `rgba(${r}, ${g}, ${b}, ${a})`;
+        setFontColor(newColor);
         changeNoteAttribute(nowActiveNoteId, 'fontcolor', newColor);
     }
 
     // CHANGE FONT COLOR
-    const AccentColorChange = (e) => {
-        const newColor = e.hex;
-        setNewAccentColor(newColor);
+    const AccentColorChange = (color) => {
+        const { r, g, b, a } = color.rgb;
+        const newColor = `rgba(${r}, ${g}, ${b}, ${a})`;
+        setAccentColor(newColor);
         changeNoteAttribute(nowActiveNoteId, 'accentcolor', newColor);
     }
 
@@ -130,10 +137,10 @@ const NoteSettings = ({
     return (
 
         <div>
-            <div className={`SettingsNoteContainer ${activeNoteSettings ? "On" : "Off"}`}>
+            <div className={`SettingsContainer ${activeNoteSettings ? "On" : "Off"}`}>
 
 
-                <button className="CloseSettingNoteBtn" onClick={NoteSettingsWindow}>X</button>
+                <button className="CloseSettingNoteBtn" onClick={CloseSettingsWindow}>X</button>
                 <div className="SettingsSectionsContainer">
 
                     <div className="NowEditInfo"> {nowActiveTitle}</div>
@@ -147,38 +154,36 @@ const NoteSettings = ({
 
                         <div className='ColorContainer'>
                             <div className="ColorTitle">Note Color</div>
-                            <button className="ColorBtn" onClick={OpenColorBackground} style={{ backgroundColor: newNoteColor }}> </button>
+                            <button className="ColorBtn" onClick={OpenColorBackground} style={{ backgroundColor: noteColor }}> </button>
                         </div>
 
 
                         <div className={`ColorPicker ${isActiveBckground ? "On" : "Off"}`}>
                             <ChromePicker
-                                disableAlpha
-                                color={newNoteColor}
+
+                                color={noteColor}
                                 onChange={NoteColorChange} />
                         </div>
 
                         <div className='ColorContainer'>
                             <div className="ColorTitle">Font Color</div>
-                            <button className="ColorBtn" onClick={OpenColorFont} style={{ backgroundColor: newFontColor }}> </button>
+                            <button className="ColorBtn" onClick={OpenColorFont} style={{ backgroundColor: fontColor }}> </button>
                         </div>
 
                         <div className={`ColorPicker ${isActiveFont ? "On" : "Off"}`}>
                             <ChromePicker
-                                disableAlpha
-                                color={newFontColor}
+                                color={fontColor}
                                 onChange={FontColorChange} />
                         </div>
 
                         <div className='ColorContainer'>
                             <div className="ColorTitle">Accents Color</div>
-                            <button className="ColorBtn" onClick={OpenColorAccent} style={{ backgroundColor: newAccentColor }}> </button>
+                            <button className="ColorBtn" onClick={OpenColorAccent} style={{ backgroundColor: accentColor }}> </button>
                         </div>
 
                         <div className={`ColorPicker ${isActiveAcccent ? "On" : "Off"}`}>
                             <ChromePicker
-                                disableAlpha
-                                color={newAccentColor}
+                                color={accentColor}
                                 onChange={AccentColorChange} />
                         </div>
 

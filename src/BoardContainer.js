@@ -1,6 +1,11 @@
 import { useState, useEffect } from 'react';
 import BoardSettings from './BoardSettings';
 
+import NoteContainer from "./NoteContainer"
+import ClockContainer from "./ClockContainer"
+
+import "./BoardStyle.css"
+
 const BoardContainer = () => {
 
     //VARIABLES
@@ -30,10 +35,33 @@ const BoardContainer = () => {
     })
 
 
+    const [activeNoteSettings, setActiveNoteSettings] = useState(false);
+    const [activeBoardSettings, setActiveBoardSettings] = useState(false);
+    const [activeClockSettings, setActiveClockSettings] = useState(false)
+
+
     // SAVE TO LOCALSTORE  BOARD TITLE
     useEffect(() => {
         localStorage.setItem("BackgroundTitle", JSON.stringify(boardTitle))
     }, [boardTitle])
+
+
+
+    const AllWindowsClose = () => {
+
+        if (activeNoteSettings === true) {
+            setActiveNoteSettings(false)
+        }
+
+        if (activeClockSettings === true) {
+            setActiveClockSettings(false)
+        }
+
+        if (activeBoardSettings === true) {
+            setActiveBoardSettings(false)
+        }
+
+    }
 
 
     return (
@@ -52,10 +80,21 @@ const BoardContainer = () => {
 
                 boardFontStyle={boardFontStyle}
                 setBoardFontStyle={setBoardFontStyle}
+
+                activeBoardSettings={activeBoardSettings}
+                setActiveBoardSettings={setActiveBoardSettings}
+
+                activeNoteSettings={activeNoteSettings}
+                setActiveNoteSettings={setActiveNoteSettings}
+
+                activeClockSettings={activeClockSettings}
+                setActiveClockSettings={setActiveClockSettings}
             />
 
             <div className='BoardContainer'
-                style={{ backgroundImage: selectedBackgroundColor }}>
+                style={{ backgroundImage: selectedBackgroundColor }}
+                onClick={() => AllWindowsClose()} >
+
 
                 <input type="text"
                     spellCheck="false"
@@ -72,6 +111,28 @@ const BoardContainer = () => {
 
             </div>
 
+            <NoteContainer
+                activeNoteSettings={activeNoteSettings}
+                setActiveNoteSettings={setActiveNoteSettings}
+
+                activeClockSettings={activeClockSettings}
+                setActiveClockSettings={setActiveClockSettings}
+
+                activeBoardSettings={activeBoardSettings}
+                setActiveBoardSettings={setActiveBoardSettings}
+            />
+
+            <ClockContainer
+                activeClockSettings={activeClockSettings}
+                setActiveClockSettings={setActiveClockSettings}
+
+                activeNoteSettings={activeNoteSettings}
+                setActiveNoteSettings={setActiveNoteSettings}
+
+                activeBoardSettings={activeBoardSettings}
+                setActiveBoardSettings={setActiveBoardSettings}
+
+            />
 
         </div>
 

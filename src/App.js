@@ -1,7 +1,7 @@
 import './App.css';
 
 import BoardContainer from "./BoardContainer"
-import NoteContainer from "./NoteContainer";
+
 
 function App() {
 
@@ -16,7 +16,7 @@ function App() {
       <div className='AUTOR' onClick={() => Contact()}>@FastRabbinON</div>
 
       <BoardContainer />
-      <NoteContainer />
+
 
     </div>
   );

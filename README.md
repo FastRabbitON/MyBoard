@@ -35,8 +35,9 @@ Project is not adjust to touch screen devices yet
 - 03-03-2023: First version (myNote);
 - 18-04-2023: Update to myBoard. Possible to add mote notes and change their properties;
 - 08-05-2023: Adding many improvements, allowing moving and resizing the note in a more user-friendly way, and optimization;
-- 10-06-2023: Add first widget - clock;
+- 10-06-2023: Add widget - clock;
 - 21-06-2023: Optimalization with settings windows options;
+- 22-06-2023: Add widget - calendar;
 
 ## Project Status
 Under development

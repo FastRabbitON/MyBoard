@@ -20,7 +20,6 @@ const NoteContainer = ({
     const [contentInput, setContentInput] = useState([]);
 
     const [nowActiveNoteId, setNowActiveNoteId] = useState(null);
-    const [previousNoteId, setPreviousNoteId] = useState(null);
     const [nowActiveTitle, setNowActiveTitle] = useState("myNote")
 
 
@@ -222,7 +221,6 @@ const NoteContainer = ({
         const y = clientY - note.positiontop;
         setOffset({ x, y });
 
-        console.log(`Nacisnąłeś note o id ${id}`);
     };
 
 
@@ -237,7 +235,6 @@ const NoteContainer = ({
             };
             setPositionFromLeft(newPosition.x);
             setPositionFromTop(newPosition.y);
-            console.log(`Ruszasz notatką w ${newPosition.x} i ${newPosition.y}`);
             changePositionAttribute(nowActiveNoteId, newPosition);
         };
 
@@ -290,7 +287,6 @@ const NoteContainer = ({
         setResizeStartY(event.clientY);
         setSizeX(note.width);
         setSizeY(note.height)
-        console.log(`Div Down`);
     };
 
     useEffect(() => {
@@ -315,12 +311,10 @@ const NoteContainer = ({
         setSizeX(newWidth);
         setSizeY(newHeight);
         changeSizeAttribute(nowActiveNoteId, newWidth, newHeight);
-        console.log(`Div resize`);
     };
 
     const handleResizeMouseUp = () => {
         setIsResizing(false);
-        console.log(`Div Up`);
     };
 
 

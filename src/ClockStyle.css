@@ -1,16 +1,15 @@
 .Clock {
     position: absolute;
     text-align: center;
-    font-family: Arial, Helvetica, sans-serif;
     font-size: 24px;
     color: #333;
     cursor: default;
     user-select: none;
     background-color: aliceblue;
     border-radius: 5px;
-    min-width: 17rem;
-    min-height: 9rem;
-    box-shadow: 8px 8px 24px 0px grey;
+    min-width: 14rem;
+    min-height: 5rem;
+    /* box-shadow: 8px 8px 24px 0px grey; */
     display: flex;
     justify-content: flex-start;
     align-items: center;
@@ -96,6 +95,7 @@
 
 
 .MoveClock {
+    user-select: none;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -121,6 +121,7 @@
 
 
 .ResizeClock {
+    user-select: none;
     display: flex;
     justify-content: center;
     align-items: center;

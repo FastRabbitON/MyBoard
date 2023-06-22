@@ -12,7 +12,7 @@ const BoardSettings = ({
     setBoardFontStyle,
     activeBoardSettings,
     setActiveBoardSettings,
-
+    BoardSettingsWindow,
     activeNoteSettings,
     setActiveNoteSettings,
     activeClockSettings,
@@ -34,22 +34,6 @@ const BoardSettings = ({
         const localDataTitle = localStorage.getItem("BackgroundGradTwo");
         return localDataTitle ? JSON.parse(localDataTitle) : "#fc466b";
     })
-
-
-
-    //OPEN WINDOWS
-    const BoardSettingsWindow = () => {
-
-        setActiveBoardSettings(current => !current)
-
-        if (activeNoteSettings === true) {
-            setActiveNoteSettings(false)
-        }
-
-        if (activeClockSettings === true) {
-            setActiveClockSettings(false)
-        }
-    }
 
     const [isActiveBackgroundBoard, setIsActiveBckgroundBoard] = useState(false);
     const OpenColorBackgroundBoard = () => {
@@ -120,17 +104,11 @@ const BoardSettings = ({
     }
 
 
-
-
-
-
-
-
     return (
 
         <div>
 
-            <button className='SettingsBoardBtn' onClick={BoardSettingsWindow}>⚙</button>
+
 
             <div className={`SettingsContainer ${activeBoardSettings ? "On" : "Off"}`}>
                 <button className="CloseSettingNoteBtn" onClick={BoardSettingsWindow}>X</button>

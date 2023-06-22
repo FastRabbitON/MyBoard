@@ -33,6 +33,7 @@ const ClockContainer = ({
     const [clockForm, setClockForm] = useState("HH:MM:SS/DD.MM.YYYY")
 
 
+    const [isShadow, setIShadow] = useState(false); //Do ogarnięcia
 
 
     // SAVE TO LOALSTORAGE
@@ -50,7 +51,7 @@ const ClockContainer = ({
             fontcolor: "#000000",
             accentcolor: '#4b4d4f',
             width: 115,
-            height: 50,
+            height: 100,
             positionleft: 10,
             positiontop: 10,
             clockform: "HH:MM:SS/DD.MM.YYYY",
@@ -113,7 +114,6 @@ const ClockContainer = ({
             setDatesFontSize(datesize);
             setClockForm(clockform);
 
-            console.log(clockForm);
         }
     }
 
@@ -166,7 +166,6 @@ const ClockContainer = ({
         const y = clientY - clock.positiontop;
         setOffset({ x, y });
 
-        console.log(`Nacisnąłeś zegar o id ${id}`);
     };
 
     useEffect(() => {
@@ -180,7 +179,6 @@ const ClockContainer = ({
             };
             setPositionFromLeft(newPosition.x);
             setPositionFromTop(newPosition.y);
-            console.log(`Ruszasz zegarem w ${newPosition.x} i ${newPosition.y}`);
             changePositionAttribute(nowActiveClockId, newPosition);
         };
 
@@ -233,7 +231,6 @@ const ClockContainer = ({
         setResizeStartY(event.clientY);
         setSizeX(clock.width);
         setSizeY(clock.height)
-        console.log(`Div Down`);
     };
 
     useEffect(() => {
@@ -258,12 +255,10 @@ const ClockContainer = ({
         setSizeX(newWidth);
         setSizeY(newHeight);
         changeSizeAttribute(nowActiveClockId, newWidth, newHeight);
-        console.log(`Div resize`);
     };
 
     const handleResizeMouseUp = () => {
         setIsResizing(false);
-        console.log(`Div Up`);
     };
 
 
@@ -271,7 +266,6 @@ const ClockContainer = ({
 
     return (
         <div>
-
 
             <ClockSettings
                 ClockSettingsWindow={ClockSettingsWindow}
@@ -300,8 +294,6 @@ const ClockContainer = ({
             <button className="AddNewClockBtn" onClick={AddNewClock}>Add Clock</button>
 
 
-
-
             {renderClock.map((clock) => (
 
                 <div
@@ -314,7 +306,8 @@ const ClockContainer = ({
                         width: `${clock.width}px`,
                         height: `${clock.height}px`,
                         backgroundColor: clock.clockcolor,
-                        boxShadow: `8px 8px 24px 0px ${clock.accentcolor}`
+                        border: `1px solid ${clock.accentcolor}`,
+                        boxShadow: isShadow ? `8px 8px 24px 0px ${clock.accentcolor}` : "none"
                     }}
 
                 >

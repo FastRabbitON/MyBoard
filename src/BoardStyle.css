@@ -13,7 +13,7 @@
 .BoardTitle {
     position: absolute;
     top: 5px;
-    width: fit-content;
+    width: 90vw;
     padding: 0.2rem;
     font-size: 4rem;
     text-align: center;
@@ -23,11 +23,17 @@
     outline: none;
 }
 
-.AddNewNoteBtn,
+
+.AddGeneralBtn,
 .SettingsBoardBtn {
     position: absolute;
     padding: 0.2px;
     font-size: 2rem;
+    width: 3.5rem;
+    height: 3.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     left: 10px;
     bottom: 10px;
     background-color: transparent;
@@ -37,17 +43,21 @@
     color: white;
     background-color: rgba(59, 58, 59, 0.4);
     padding: 0.3rem;
-    border-radius: 5px;
+    border-radius: 10px;
     transition: all 0.1s ease-in-out;
+}
+
+.AddGeneralBtn:hover,
+.SettingsBoardBtn:hover {
+    background-color: rgba(59, 58, 59, 0.75);
+    transition: all 0.1s ease-in-out;
+
 }
 
 .SettingsBoardBtn {
     left: 125px;
 }
 
-.AddNewNoteBtn:hover,
-.SettingsBoardBtn:hover {
-    background-color: rgba(59, 58, 59, 0.75);
-    transition: all 0.1s ease-in-out;
-
+.AddGeneralBtn {
+    left: 200px
 }

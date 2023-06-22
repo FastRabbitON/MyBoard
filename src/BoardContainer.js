@@ -3,8 +3,10 @@ import BoardSettings from './BoardSettings';
 
 import NoteContainer from "./NoteContainer"
 import ClockContainer from "./ClockContainer"
+import CalendarContainer from './CalendarContainer';
 
 import "./BoardStyle.css"
+
 
 const BoardContainer = () => {
 
@@ -37,7 +39,8 @@ const BoardContainer = () => {
 
     const [activeNoteSettings, setActiveNoteSettings] = useState(false);
     const [activeBoardSettings, setActiveBoardSettings] = useState(false);
-    const [activeClockSettings, setActiveClockSettings] = useState(false)
+    const [activeClockSettings, setActiveClockSettings] = useState(false);
+    const [activeCalendarSettings, setActiveCalendarSettings] = useState(false);
 
 
     // SAVE TO LOCALSTORE  BOARD TITLE
@@ -60,7 +63,23 @@ const BoardContainer = () => {
         if (activeBoardSettings === true) {
             setActiveBoardSettings(false)
         }
+        if (activeCalendarSettings === true) {
+            setActiveCalendarSettings(false)
+        }
 
+    }
+
+    const BoardSettingsWindow = () => {
+
+        setActiveBoardSettings(current => !current)
+
+        if (activeNoteSettings === true) {
+            setActiveNoteSettings(false)
+        }
+
+        if (activeClockSettings === true) {
+            setActiveClockSettings(false)
+        }
     }
 
 
@@ -89,7 +108,18 @@ const BoardContainer = () => {
 
                 activeClockSettings={activeClockSettings}
                 setActiveClockSettings={setActiveClockSettings}
+
+                BoardSettingsWindow={BoardSettingsWindow}
             />
+
+            <button className='SettingsBoardBtn' onClick={BoardSettingsWindow}>⚙</button>
+
+            {/* <button className='AddGeneralBtn' onClick> + </button> */}
+
+            <div className="AddAllContainerBtn">
+
+
+            </div>
 
             <div className='BoardContainer'
                 style={{ backgroundImage: selectedBackgroundColor }}
@@ -131,6 +161,14 @@ const BoardContainer = () => {
 
                 activeBoardSettings={activeBoardSettings}
                 setActiveBoardSettings={setActiveBoardSettings}
+
+            />
+
+            <CalendarContainer
+
+                activeCalendarSettings={activeCalendarSettings}
+                setActiveCalendarSettings={setActiveCalendarSettings}
+
 
             />
 

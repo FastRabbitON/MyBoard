@@ -1,0 +1,280 @@
+.EmptyContainer {
+    display: none;
+}
+
+.DisplayContainer {
+    width: 95%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.NowEditInfo {
+    padding: 1rem;
+    font-size: 2.2rem;
+    color: white;
+    font-weight: bolder;
+    text-align: center;
+}
+
+.SettingsContainer.Off {
+    position: fixed;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+    padding: 0.5rem;
+    right: 0px;
+    top: 0px;
+    width: 300px;
+    height: 100vh;
+    background-color: rgba(59, 58, 59, 0.85);
+    -webkit-transition: all 0.3s ease-in-out;
+    -o-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+    -webkit-transform: translate(100%);
+    -ms-transform: translate(100%);
+    transform: translate(100%);
+    overflow-y: scroll;
+    overflow-x: hidden;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    z-index: 100;
+}
+
+.SettingsContainer.On {
+    position: fixed;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+    right: 0px;
+    top: 0px;
+    width: 300px;
+    height: 100vh;
+    background-color: rgba(59, 58, 59, 0.85);
+    border-radius: 10px 0 0 10px;
+    -webkit-transition: all 0.3s ease-in-out;
+    -o-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+    -webkit-transform: translate(0%);
+    -ms-transform: translate(0%);
+    transform: translate(0%);
+    overflow-y: scroll;
+    overflow-x: hidden;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    z-index: 100;
+}
+
+.SettingsContainer.On::-webkit-scrollbar,
+.SettingsContainer.Off::-webkit-scrollbar {
+    display: none;
+}
+
+.CloseSettingNoteBtn {
+    position: relative;
+    padding: 0.2px;
+    font-size: 2rem;
+    top: 5px;
+    right: 120px;
+    background-color: transparent;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    color: white;
+    padding: 0.3rem;
+    border-radius: 5px;
+    transition: all 0.1s ease-in-out;
+}
+
+.SettingsSectionsContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 90%;
+    border-bottom: 0.2rem solid white;
+    padding: 0.5rem 0 0.5rem 0;
+}
+
+.SettingsSectionsTitle {
+    color: white;
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+.SettingsSectionsContent {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.ColorContainer {
+    height: fit-content;
+    width: 90%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin: 1rem 0rem 0.5rem 0.5rem
+}
+
+.ColorTitle {
+    font-size: 1.8rem;
+    color: white;
+    margin-right: 2rem;
+}
+
+.ColorBtn {
+    width: 50px;
+    height: 25px;
+    border: 0.4rem solid black;
+    border-radius: 5px;
+    background-color: #b7b6bb;
+    margin-right: 0.5rem;
+}
+
+.ColorPicker.On {
+    display: flex;
+}
+
+.ColorPicker.Off {
+    display: none;
+
+}
+
+.CheckBoxContainer {
+    height: fit-content;
+    width: 90%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin: 1rem 0rem 0.5rem 0.5rem;
+    font-size: 1.8rem;
+
+}
+
+.CheckBoxContainer label {
+    margin-right: 1rem;
+    color: white;
+}
+
+.DimentionContainer {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 0.8rem;
+}
+
+.HorizontalSettings {
+    font-size: 1.8rem;
+    width: 50%;
+    height: 80px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+
+
+.HorizontalSlider {
+    margin-bottom: 0.5rem;
+}
+
+.HorizontalInput {
+    text-align: center;
+    color: white;
+    width: 55%;
+    padding: 0.5rem 0 0.5rem 0;
+    background-color: transparent;
+    border: 0.1rem solid whitesmoke;
+    border-radius: 10px;
+    outline: none;
+}
+
+.LayerContainer {
+    width: 50%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 0.8rem;
+}
+
+.LayerBtn {
+    font-size: 2rem;
+    background-color: transparent;
+    font-weight: bold;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    color: white;
+    padding: 0.3rem;
+    border-radius: 5px;
+    transition: all 0.1s ease-in-out;
+}
+
+
+.DropSelection {
+    text-align: center;
+    width: 140px;
+    height: 40px;
+    padding: 0.2rem;
+    font-size: 1.8rem;
+    background-color: transparent;
+    font-weight: bold;
+    outline: none;
+    cursor: pointer;
+    color: white;
+    padding: 0.3rem;
+    border: 0.1rem solid whitesmoke;
+    border-radius: 10px;
+}
+
+.DropSelection option {
+    padding: 0.2rem;
+    font-size: 2rem;
+    background-color: rgba(59, 58, 59);
+    cursor: pointer;
+    color: white;
+    padding: 0.3rem;
+    border-radius: 5px;
+}
+
+
+
+.FormSelection {
+    height: 250px;
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: flex-start;
+
+}
+
+
+.FormSelection div {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.FormSelection label {
+    margin-left: 1rem;
+    font-size: 1.8rem;
+    color: white;
+}
+
+.FormSelection label div {
+    font-size: 1.8rem;
+    color: white;
+}

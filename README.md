@@ -18,11 +18,12 @@ Project is not adjust to touch screen devices yet
 ![Alt text](https://github.com/FastRabbitON/FastRabbitON/blob/main/GifBoard.gif)
 
 ## How to run
-1) Online https://mynoteboard.pl
-2) Local:
- 1. Download the entire repository
- 2. Unzip in a folder
- 3. Run by open **index.html** file
+- Online https://mynoteboard.pl
+   
+- Local:
+1. Download BuildVersion folder
+2. Rub by **index.html**
+
 
 ## Technologies Used
 - HTML
@@ -37,7 +38,9 @@ Project is not adjust to touch screen devices yet
 - 08-05-2023: Adding many improvements, allowing moving and resizing the note in a more user-friendly way, and optimization;
 - 10-06-2023: Add widget - clock;
 - 21-06-2023: Optimalization with settings windows options;
-- 22-06-2023: Add widget - calendar;
+- 22-06-2023: Add widget - calendar (beta version);
+- 26-06-2023: Reduce code significantly, prepare cod to easier way in adding new widgets in future.
+  Add widget - weather (beta version)
 
 ## Project Status
 Under development

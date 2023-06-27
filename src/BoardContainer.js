@@ -36,6 +36,7 @@ const BoardContainer = () => {
     })
 
 
+    const [isTutorial, setIsTutorial] = useState(false);
 
     const [activeBoardSettings, setActiveBoardSettings] = useState(false);
     const [activeObjectSettings, setActiveObjectSettings] = useState(false);
@@ -81,6 +82,10 @@ const BoardContainer = () => {
 
     }
 
+    const TutorialWindow = () => {
+        setIsTutorial(current => !current);
+    }
+
 
     return (
 
@@ -108,9 +113,29 @@ const BoardContainer = () => {
 
             <button className='SettingsBoardBtn' onClick={BoardSettingsWindow}>⚙</button>
 
+            <button className='TutorialBtn' onClick={TutorialWindow}
+                style={{
+                    fontFamily: "Spline Sans Mono, monospace"
+                }}> i </button>
+
+
+            <div className={`TutorialContainer ${isTutorial ? "On" : "Off"}`}>
+                <div className="TutorialBlur" onClick={TutorialWindow}></div>
+                <div className="TutorialWindow"
+                // style={{ backgroundImage: selectedBackgroundColor }}
+                >
+
+                    <div className="TutorialCloseBtn" onClick={TutorialWindow}>X</div>
+                    <video className="TutorialVideo" controls>
+                        <source src={require("./TutorialVideo.mp4")} type="video/mp4" />
+                    </video>
+
+
+                </div>
+            </div>
+
 
             <div className="AddAllContainerBtn">
-
 
             </div>
 

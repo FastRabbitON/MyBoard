@@ -14,7 +14,9 @@ function App() {
 
     <div>
 
-      <div className='AUTOR' onClick={() => Contact()}>@FastRabbinON</div>
+      <div className="AutorContainer" onClick={() => Contact()}>
+        <div className='AUTOR' >@FastRabbinON</div>
+      </div>
 
       <BoardContainer />
 

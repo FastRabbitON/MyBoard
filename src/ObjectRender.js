@@ -50,11 +50,13 @@ const ObjectRender = ({
     const [currentDate, setCurrentDate] = useState(new Date());
 
     //Unique for Weather
-    const api = "cd95b4162ff6765cbe3dbd2169ae2b1b"
+    const apiKey = "cd95b4162ff6765cbe3dbd2169ae2b1b"
 
-    const [nowDate, setNowDate] = useState(new Date())
     const [placeName, setPlaceName] = useState('');
     const [weatherApiInfo, setWeatherApiInfo] = useState('');
+    const [weatherLocation, setWeatherLocation] = useState("");
+
+    const [sizeWeatherIco, setSizeWeatherIco] = useState(10);
 
 
     // SAVE TO LOALSTORAGE
@@ -150,15 +152,21 @@ const ObjectRender = ({
                 AttributeAccentColor: '#4b4d4f',
                 AttributeShadow: true,
                 AttributeWidth: 240,
-                AttributeHeight: 125,
+                AttributeHeight: 140,
                 AttributeTitleSize: 20,
-                AttributeContentSize: 20,
+                AttributeContentSize: 15,
                 AttributePositionLeft: 10,
                 AttributePositionTop: 10,
                 AttributeFontStyle: "Shantell Sans, cursive",
                 AttributeLayer: 1,
                 //Unique Attribute for Weather
-                AttributeLocation: ""
+                AttributeLocation: "",
+                AttributeTemp: 0,
+                AttributeWind: 0,
+                AttributeHumidity: 0,
+                AttributePressure: 0,
+                AttributeIcoSize: 50,
+                AttributeIcoCode: "",
 
             }
             console.log("Added Weather");
@@ -185,8 +193,11 @@ const ObjectRender = ({
 
         const updatedAttribute = renderObject.map((object) => {      // Tablica jest mapowana, i sprawdzana który z jej elementów ma AttributeID=AttributeID z parametrów przekazanych do funkcji (linia wyżej)
             if (object.AttributeID === ID) {
+
                 return { ...object, [AttributeToChange]: Value }; // Ustawienie dla konkretnego atrybutu nowej wartości 
+
             }
+
             return object
         })
         setRenderObject(updatedAttribute);
@@ -223,13 +234,16 @@ const ObjectRender = ({
         }
 
         setNowActiveObjectType(ObjectType)
-        setNowActiveTitle(Title)
         setNowActiveObjectID(ID)
 
 
         const GetAttribute = renderObject.find(object => object.AttributeID === ID);
         if (GetAttribute) {
-            const { AttributeColor, AttributeFontColor, AttributeAccentColor, AttributeTitleSize, AttributeContentSize, AttributeFontStyle, AttributeLayer, AttributeShadow, AttributeClockForm } = GetAttribute;
+            const {
+                AttributeColor, AttributeFontColor, AttributeAccentColor, AttributeTitleSize,
+                AttributeContentSize, AttributeFontStyle, AttributeLayer, AttributeShadow,
+                AttributeClockForm, AttributePositionLeft, AttributePositionTop, AttributeWidth,
+                AttributeHeight, AttributeTitle, AttributeIcoSize } = GetAttribute;
             setBackgroundColor(AttributeColor);
             setFontColor(AttributeFontColor);
             setAccentColor(AttributeAccentColor);
@@ -238,9 +252,19 @@ const ObjectRender = ({
             setContentSize(AttributeContentSize);
             setNoteFontStyle(AttributeFontStyle);
             setLayer(AttributeLayer);
+            setPositionFromLeft(AttributePositionLeft);
+            setPositionFromTop(AttributePositionTop);
+            setSizeX(AttributeWidth);
+            setSizeY(AttributeHeight);
+
+            //Unique For Note
+            setNowActiveTitle(AttributeTitle)
 
             //Unique For Clock
             setClockForm(AttributeClockForm)
+
+            //Unique For Weather
+            setSizeWeatherIco(AttributeIcoSize)
         }
 
     }
@@ -287,6 +311,10 @@ const ObjectRender = ({
         const x = clientX - object.AttributePositionLeft;
         const y = clientY - object.AttributePositionTop;
         setOffset({ x, y });
+
+        if (activeObjectSettings === true && nowActiveObjectID !== ID) {
+            setActiveObjectSettings(false);
+        }
     };
 
     useEffect(() => {
@@ -349,6 +377,10 @@ const ObjectRender = ({
         setSizeX(object.AttributeWidth);
         setSizeY(object.AttributeHeight);
 
+        if (activeObjectSettings === true && nowActiveObjectID !== ID) {
+            setActiveObjectSettings(false);
+        }
+
     };
 
     useEffect(() => {
@@ -404,8 +436,6 @@ const ObjectRender = ({
             changeNoteContent(id, contentNote);
         }
     };
-
-
 
 
     // //REMOVE AttributeNoteContent IN PRATICULARLY NOTE
@@ -559,49 +589,57 @@ const ObjectRender = ({
     const todayDate = today.getDate();
 
 
+
+
+
     // Unique for Weather
 
-    const Search = (event, ID) => {
 
+
+    const Search = (event, ID, Place) => {
         if (event.key === 'Enter') {
-
-            fetch(`https://api.openweathermap.org/data/2.5/weather?q=${placeName}&appid=${api}&units=metric`)
+            fetch(`https://api.openweathermap.org/data/2.5/weather?q=${Place}&appid=${apiKey}&units=metric`)
                 .then(apiInformation => {
                     if (apiInformation.ok) {
-                        return apiInformation
-                    }
-                    else {
-                        throw Error('Location was not found')
+                        return apiInformation;
+                    } else {
+                        throw Error('Location was not found');
                     }
                 })
-
                 .then(apiInformation => apiInformation.json())
-                .then(weatherApiInfo => { setWeatherApiInfo(weatherApiInfo) })
+                .then(weatherApiInfo => {
+                    setWeatherApiInfo(weatherApiInfo);
+                    console.log(weatherApiInfo);
+
+
+                    const TemperatureInfo = weatherApiInfo.main.temp;
+                    const WindInfo = weatherApiInfo.wind.speed;
+                    const HumidityInfo = weatherApiInfo.main.humidity;
+                    const PressureInfo = weatherApiInfo.main.pressure;
+                    const IcoInfo = weatherApiInfo.weather[0].icon;
+
+                    console.log(IcoInfo)
+
+                    WeatherChanger(ID, TemperatureInfo, WindInfo, HumidityInfo, PressureInfo, Place, IcoInfo);
+
+
+
+                })
                 .catch(errThree => alert(errThree));
-
-            console.log(weatherApiInfo)
-
-            GeneralAttributeChanger(ID, "AttributeLocation", weatherApiInfo);
-
         }
+    };
 
-    }
-
-
-
-    const ContentChanger = (AttributeID, AttributeNoteContent) => {
-
-        const updatedContent = renderObject.map((note) => {
-            if (note.AttributeID === AttributeID) {
-                return { ...note, AttributeNoteContent: [...note.AttributeNoteContent, AttributeNoteContent] };
+    const WeatherChanger = (ID, newTemp, newWind, newHumidity, newPressure, newPlace, newIco) => {
+        const updatedAttributes = renderObject.map((object) => {
+            if (object.AttributeID === ID) {
+                return { ...object, AttributeTemp: newTemp, AttributeWind: newWind, AttributeHumidity: newHumidity, AttributePressure: newPressure, AttributeLocation: newPlace, AttributeIcoCode: newIco };
             }
-            return note;
+            return object;
         });
-
-        setRenderObject(updatedContent);
-        setContentNote({ ...contentNote, [AttributeID]: '' }); // set the value to an empty string
-        localStorage.setItem('RenderObject', JSON.stringify(updatedContent));
+        setRenderObject(updatedAttributes);
+        localStorage.setItem("RenderObject", JSON.stringify(updatedAttributes));
     }
+
 
 
 
@@ -668,6 +706,11 @@ const ObjectRender = ({
                 clockForm={clockForm}
                 setClockForm={setClockForm}
 
+                //Unique For Weather
+                sizeWeatherIco={sizeWeatherIco}
+                setSizeWeatherIco={setSizeWeatherIco}
+
+
                 //Functions
 
                 GeneralAttributeChanger={GeneralAttributeChanger}
@@ -677,8 +720,8 @@ const ObjectRender = ({
             <div className={`AddMenuContainer ${isAddMenuOpen ? "On" : "Off"}`}>
                 <button className='AddObjectBtn' onClick={() => AddNewObject("Note")} >Note</button>
                 <button className='AddObjectBtn' onClick={() => AddNewObject("Clock")} >Clock</button>
+                <button className='AddObjectBtn' onClick={() => AddNewObject("Weather")} >Weather </button>
                 <button className='AddObjectBtn' onClick={() => AddNewObject("Calendar")} >Calendar <sup>(Beta)</sup> </button>
-                <button className='AddObjectBtn' onClick={() => AddNewObject("Weather")} >Weather <sup>(Beta)</sup></button>
 
             </div>
 
@@ -710,7 +753,7 @@ const ObjectRender = ({
                         <div className="TopSectionNote">
 
                             <button className='RemoveNoteBtn' onClick={() => RemoveObject(note.AttributeID)} >
-                                <div style={{ color: note.AttributeAccentColor }}>X</div>
+                                <div style={{ color: note.AttributeAccentColor, fontFamily: note.AttributeFontStyle }}>X</div>
                             </button>
 
                             <div className="MoveNote"
@@ -725,7 +768,7 @@ const ObjectRender = ({
                             </div>
 
                             <button className='SettingsNoteBtn' onClick={() => SettingsWindow(note.AttributeID, note.AttributeObjectType, note.AttributeTitle)} >
-                                <div style={{ color: note.AttributeAccentColor }}>⚙</div>
+                                <div style={{ color: note.AttributeAccentColor, fontFamily: note.AttributeFontStyle }}>⚙</div>
                             </button>
 
                         </div>
@@ -811,7 +854,7 @@ const ObjectRender = ({
                                             <button
                                                 onClick={() => moveContentDown(note.AttributeID, index)}
                                                 style={{
-                                                    display: `${index === note.content.length - 1 ? "none" : ""}`,
+                                                    display: `${index === note.AttributeNoteContent.length - 1 ? "none" : ""}`,
                                                     fontSize: `${note.AttributeContentSize}px`,
                                                     color: note.AttributeAccentColor,
                                                     fontFamily: note.AttributeFontStyle
@@ -857,7 +900,7 @@ const ObjectRender = ({
                             border: `1px solid ${clock.AttributeAccentColor}`,
                             boxShadow: `${clock.AttributeShadow ? `8px 8px 24px 0px ${clock.AttributeAccentColor}` : "0px 0px 0px 0px black"} `,
                             zIndex: clock.AttributeLayer,
-                            position: 'absolute'
+                            position: 'absolute',
                         }}
 
                     >
@@ -868,7 +911,9 @@ const ObjectRender = ({
                                 onClick={() => RemoveObject(clock.AttributeID)}
                             >
                                 <div style={{
-                                    color: clock.AttributeAccentColor
+                                    color: clock.AttributeAccentColor,
+                                    fontFamily: clock.AttributeFontStyle
+
                                 }}>X</div></button>
 
                             <div className="MoveClock"
@@ -880,14 +925,18 @@ const ObjectRender = ({
                                 }}
                             >
                                 <div style={{
-                                    color: clock.AttributeAccentColor
+                                    color: clock.AttributeAccentColor,
+                                    fontFamily: clock.AttributeFontStyle
+
                                 }}>Move Me</div></div>
 
                             <button className="SettingsClockBtn"
                                 onClick={() => SettingsWindow(clock.AttributeID, clock.AttributeObjectType, "Clock")}
                             >
                                 <div style={{
-                                    color: clock.AttributeAccentColor
+                                    color: clock.AttributeAccentColor,
+                                    fontFamily: clock.AttributeFontStyle
+
                                 }}>⚙</div></button>
 
                         </div>
@@ -899,6 +948,9 @@ const ObjectRender = ({
                                 style={{
                                     color: clock.AttributeFontColor,
                                     fontSize: `${clock.AttributeTitleSize}px`,
+                                    fontFamily: clock.AttributeFontStyle
+
+
                                 }}>
                                 {date.getHours() < 10 ? "0" + date.getHours() : date.getHours()}:{date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes()}:{date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds()}
                             </div>
@@ -907,7 +959,9 @@ const ObjectRender = ({
 
                                 style={{
                                     color: clock.AttributeFontColor,
-                                    fontSize: `${clock.AttributeContentSize}px`
+                                    fontSize: `${clock.AttributeContentSize}px`,
+                                    fontFamily: clock.AttributeFontStyle
+
                                 }}
                             >
                                 {date.getDate() < 10 ? "0" + date.getDate() : date.getDate()}.{date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : (date.getMonth() + 1)}.{date.getFullYear()}
@@ -917,7 +971,9 @@ const ObjectRender = ({
                             <div className={`HHMM-DDMMYYYY ${clock.AttributeClockForm === "HH:MM/DD.MM.YYYY" ? "On" : "Off"}`}
                                 style={{
                                     color: clock.AttributeFontColor,
-                                    fontSize: `${clock.AttributeTitleSize}px`
+                                    fontSize: `${clock.AttributeTitleSize}px`,
+                                    fontFamily: clock.AttributeFontStyle
+
                                 }}>
                                 {date.getHours() < 10 ? "0" + date.getHours() : date.getHours()}:{date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes()}
                             </div>
@@ -926,7 +982,9 @@ const ObjectRender = ({
 
                                 style={{
                                     color: clock.AttributeFontColor,
-                                    fontSize: `${clock.AttributeContentSize}px`
+                                    fontSize: `${clock.AttributeContentSize}px`,
+                                    fontFamily: clock.AttributeFontStyle
+
                                 }}
                             >
                                 {date.getDate() < 10 ? "0" + date.getDate() : date.getDate()}.{date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : (date.getMonth() + 1)}.{date.getFullYear()}
@@ -937,7 +995,9 @@ const ObjectRender = ({
                             <div className={`HHMMSS ${clock.AttributeClockForm === "HH:MM:SS" ? "On" : "Off"}`}
                                 style={{
                                     color: clock.AttributeFontColor,
-                                    fontSize: `${clock.AttributeTitleSize}px`
+                                    fontSize: `${clock.AttributeTitleSize}px`,
+                                    fontFamily: clock.AttributeFontStyle
+
                                 }}>
                                 {date.getHours() < 10 ? "0" + date.getHours() : date.getHours()}:{date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes()}:{date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds()}
 
@@ -947,7 +1007,9 @@ const ObjectRender = ({
                             <div className={`HHMM ${clock.AttributeClockForm === "HH:MM" ? "On" : "Off"}`}
                                 style={{
                                     color: clock.AttributeFontColor,
-                                    fontSize: `${clock.AttributeTitleSize}px`
+                                    fontSize: `${clock.AttributeTitleSize}px`,
+                                    fontFamily: clock.AttributeFontStyle
+
                                 }}>
                                 {date.getHours() < 10 ? "0" + date.getHours() : date.getHours()}:{date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes()}
 
@@ -958,7 +1020,9 @@ const ObjectRender = ({
 
                                 style={{
                                     color: clock.AttributeFontColor,
-                                    fontSize: `${clock.AttributeContentSize}px`
+                                    fontSize: `${clock.AttributeContentSize}px`,
+                                    fontFamily: clock.AttributeFontStyle
+
                                 }}
                             >
                                 {date.getDate() < 10 ? "0" + date.getDate() : date.getDate()}.{date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : (date.getMonth() + 1)}.{date.getFullYear()}
@@ -977,7 +1041,9 @@ const ObjectRender = ({
                             }}
                         >
                             <div style={{
-                                color: clock.AttributeAccentColor
+                                color: clock.AttributeAccentColor,
+                                fontFamily: clock.AttributeFontStyle
+
                             }}>⤡</div>
 
                         </div>
@@ -1014,7 +1080,7 @@ const ObjectRender = ({
                         <div className="TopSectionCalendar">
 
                             <button className='RemoveCalendarBtn' onClick={() => RemoveObject(calendar.AttributeID)} >
-                                <div style={{ color: calendar.AttributeAccentColor }}>X</div>
+                                <div style={{ color: calendar.AttributeAccentColor, fontFamily: calendar.AttributeFontStyle }}>X</div>
                             </button>
 
                             <div className="MoveCalendar"
@@ -1026,12 +1092,12 @@ const ObjectRender = ({
                                 }}
 
                             >
-                                <div style={{ color: calendar.AttributeAccentColor }} >Move Me</div>
+                                <div style={{ color: calendar.AttributeAccentColor, fontFamily: calendar.AttributeFontStyle }} >Move Me</div>
 
                             </div>
 
                             <button className='SettingsCalendarBtn' onClick={() => SettingsWindow(calendar.AttributeID, calendar.AttributeObjectType, "Calendar")} >
-                                <div style={{ color: calendar.AttributeAccentColor }}>⚙</div>
+                                <div style={{ color: calendar.AttributeAccentColor, fontFamily: calendar.AttributeFontStyle }}>⚙</div>
                             </button>
 
                         </div>
@@ -1141,7 +1207,7 @@ const ObjectRender = ({
                                 borderLeft: `0.1rem solid ${calendar.AttributeAccentColor}`,
                                 borderTop: `0.1rem solid ${calendar.AttributeAccentColor}`
                             }}>
-                            <div style={{ color: calendar.AttributeAccentColor }}>⤡</div>
+                            <div style={{ color: calendar.AttributeAccentColor, fontFamily: calendar.AttributeFontStyle }}>⤡</div>
                         </div>
 
                     </div>
@@ -1177,7 +1243,7 @@ const ObjectRender = ({
                         <div className="TopSectionWeather">
 
                             <button className='RemoveWeatherBtn' onClick={() => RemoveObject(weather.AttributeID)} >
-                                <div style={{ color: weather.AttributeAccentColor }}>X</div>
+                                <div style={{ color: weather.AttributeAccentColor, fontFamily: weather.AttributeFontStyle }}>X</div>
                             </button>
 
                             <div className="MoveWeather"
@@ -1192,7 +1258,7 @@ const ObjectRender = ({
                             </div>
 
                             <button className='SettingsWeatherBtn' onClick={() => SettingsWindow(weather.AttributeID, weather.AttributeObjectType, "Weather")} >
-                                <div style={{ color: weather.AttributeAccentColor }}>⚙</div>
+                                <div style={{ color: weather.AttributeAccentColor, fontFamily: weather.AttributeFontStyle }}>⚙</div>
                             </button>
 
                         </div>
@@ -1201,9 +1267,9 @@ const ObjectRender = ({
                             <input
                                 type="text"
                                 placeholder="Search Location..."
-                                value={placeName[weather.AttributeID]}
-                                onChange={e => setPlaceName(e.target.value)}
-                                onKeyPress={(e) => Search(e, weather.AttributeID, placeName)}
+                                value={weather.AttributeLocation}
+                                onChange={(e) => GeneralAttributeChanger(weather.AttributeID, "AttributeLocation", e.target.value)}
+                                onKeyDown={(e) => Search(e, weather.AttributeID, e.target.value)}
                                 style={{
                                     color: weather.AttributeFontColor,
                                     fontFamily: weather.AttributeFontStyle,
@@ -1215,25 +1281,30 @@ const ObjectRender = ({
                             </input>
                         </div>
 
-                        {weatherApiInfo ? <div className="WeatherInfoContainer">
+
+                        <div className="WeatherInfoContainer">
+
+                            <div className='WeatherMainContainer'>
+
+                                <img src={`https://openweathermap.org/img/wn/${weather.AttributeIcoCode}@2x.png`} alt="weather-ico"
+                                    style={{
+                                        display: `${(weather.AttributeIcoCode).length > 0 ? "flex" : "none"}`,
+                                        width: `${weather.AttributeIcoSize}px`
+                                    }} />
 
 
-                            {/* <div className="WeatherInfoLocation">
-                                <div className="location">{weatherApiInfo.name}, {weatherApiInfo.sys.country}</div>
-                                {nowDate.toLocaleString('en-US', { dateStyle: "full" })}
-                            </div> */}
+                                <div className="WeatherTemp"
+                                    style={{
+                                        color: weather.AttributeFontColor,
+                                        fontFamily: weather.AttributeFontStyle,
+                                        fontSize: `${weather.AttributeTitleSize}px`
+                                    }}
+                                >
+                                    {Math.round(weather.AttributeTemp)}°C
 
-                            <div className="WeatherTemp"
-                                style={{
-                                    color: weather.AttributeFontColor,
-                                    fontFamily: weather.AttributeFontStyle,
-                                    fontSize: `${weather.AttributeTitleSize}px`
-                                }}
-                            >
-                                {(weatherApiInfo.main.temp).toFixed(1)}°C
+                                </div>
 
                             </div>
-
                             <div className="WeatherMoreContainer">
 
                                 <div className="WeatherMore">
@@ -1255,7 +1326,7 @@ const ObjectRender = ({
                                             fontSize: `${weather.AttributeContentSize}px`
                                         }}
                                     >
-                                        {Math.round(weatherApiInfo.wind.speed)} km/h
+                                        {Math.round(weather.AttributeWind)} km/h
                                     </div>
 
                                 </div>
@@ -1277,7 +1348,7 @@ const ObjectRender = ({
                                             fontSize: `${weather.AttributeContentSize}px`
                                         }}
                                     >
-                                        {Math.round(weatherApiInfo.main.humidity)} %
+                                        {Math.round(weather.AttributeHumidity)} %
                                     </div>
                                 </div>
 
@@ -1299,13 +1370,13 @@ const ObjectRender = ({
                                             fontSize: `${weather.AttributeContentSize}px`
                                         }}
                                     >
-                                        {Math.round(weatherApiInfo.main.pressure)} hPa
+                                        {Math.round(weather.AttributePressure)} hPa
                                     </div>
                                 </div>
 
                             </div>
 
-                        </div> : null}
+                        </div>
 
 
                         <div className="ResizeWeather"

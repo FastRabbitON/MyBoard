@@ -12,7 +12,7 @@
     background-color: rgba(59, 58, 59, 0.6);
     transition: all 0.3s ease-in-out;
     transform: translate(-100%);
-    z-index: 100;
+
 }
 
 .AddMenuContainer.On {
@@ -30,7 +30,6 @@
     border-radius: 0 10px 10px 0;
     transition: all 0.3s ease-in-out;
     transform: translate(0%);
-    z-index: 100;
 }
 
 .AddMenuBtn {
@@ -51,12 +50,12 @@
     background-color: rgba(59, 58, 59, 0.4);
     padding: 0.3rem;
     border-radius: 50%;
-    transition: all 0.1s ease-in-out;
+    transition: all 0.2s ease-in-out;
 }
 
 .AddMenuBtn:hover {
     background-color: rgba(59, 58, 59, 0.75);
-    transition: all 0.1s ease-in-out;
+    transition: all 0.2s ease-in-out;
 }
 
 .AddObjectBtn {
@@ -70,12 +69,12 @@
     background-color: rgba(59, 58, 59, 0.4);
     padding: 0.3rem;
     border-radius: 5px;
-    transition: all 0.1s ease-in-out;
+    transition: all 0.2s ease-in-out;
 }
 
 .AddObjectBtn:hover {
     background-color: rgba(59, 58, 59, 0.75);
-    transition: all 0.1s ease-in-out;
+    transition: all 0.2s ease-in-out;
 }
 
 .AddObjectBtn sup {
@@ -95,7 +94,7 @@
     min-width: 15rem;
     min-height: 20rem;
     background-color: #ffb100;
-    border-radius: 25px;
+    border-radius: 10px;
     -webkit-box-shadow: 8px 8px 24px 0px #483948;
     -moz-box-shadow: 8px 8px 24px 0px #483948;
     box-shadow: 8px 8px 24px 0px #483948;
@@ -125,7 +124,7 @@
     cursor: pointer;
     color: white;
     padding: 0.3rem;
-    transition: all 0.1s ease-in-out;
+    transition: all 0.2s ease-in-out;
     height: 100%;
     width: 5rem;
 
@@ -250,7 +249,7 @@
     border-radius: 0px;
     background-color: transparent;
     border: 0.2rem solid transparent;
-    transition: border 0.1s ease-in-out;
+    transition: border 0.2s ease-in-out;
     resize: none;
     -ms-overflow-style: none;
     scrollbar-width: none;
@@ -354,7 +353,7 @@ input[type=number] {
     cursor: default;
     user-select: none;
     background-color: aliceblue;
-    border-radius: 5px;
+    border-radius: 10px;
     min-width: 14rem;
     min-height: 5rem;
     /* box-shadow: 8px 8px 24px 0px grey; */
@@ -391,7 +390,7 @@ input[type=number] {
     cursor: pointer;
     color: white;
     padding: 0.3rem;
-    transition: all 0.1s ease-in-out;
+    transition: all 0.2s ease-in-out;
     height: 100%;
     width: 5rem;
 
@@ -535,7 +534,7 @@ input[type=number] {
     justify-content: flex-start;
     align-items: center;
     flex-direction: column;
-    border-radius: 15px;
+    border-radius: 10px;
 }
 
 .TopSectionCalendar {
@@ -557,7 +556,7 @@ input[type=number] {
     cursor: pointer;
     color: white;
     padding: 0.3rem;
-    transition: all 0.1s ease-in-out;
+    transition: all 0.2s ease-in-out;
     height: 100%;
     width: 5rem;
 }
@@ -697,12 +696,12 @@ table {
     background-color: rgba(0, 0, 0, 0.1);
     cursor: pointer;
     border-radius: 5px;
-    transition: all 0.1s linear;
+    transition: all 0.2s linear;
 }
 
 .GridGeneral:hover {
     background-color: rgba(0, 0, 0, 0.5);
-    transition: all 0.1s linear;
+    transition: all 0.2s linear;
 }
 
 .GridToday {
@@ -710,7 +709,7 @@ table {
     border-radius: 5px;
     background-color: rgba(0, 0, 0, 0.5);
     border: 0.1rem solid black;
-    transition: oall 0.1s linear;
+    transition: oall 0.2s linear;
 }
 
 
@@ -726,7 +725,7 @@ table {
     min-width: 20rem;
     min-height: 10rem;
     background-color: #ffb100;
-    border-radius: 25px;
+    border-radius: 10px;
     -webkit-box-shadow: 8px 8px 24px 0px #483948;
     -moz-box-shadow: 8px 8px 24px 0px #483948;
     box-shadow: 8px 8px 24px 0px #483948;
@@ -755,7 +754,7 @@ table {
     cursor: pointer;
     color: white;
     padding: 0.3rem;
-    transition: all 0.1s ease-in-out;
+    transition: all 0.2s ease-in-out;
     height: 100%;
     width: 5rem;
 
@@ -885,7 +884,18 @@ table {
     /* background-color: aqua; */
 }
 
+.WeatherMainContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 90%;
+    height: 50%;
+}
 
+.WeatherMainContainer img {
+    /* width: 50px;
+    height: fit-content; */
+}
 
 .WeatherTemp {
     display: flex;
@@ -893,8 +903,9 @@ table {
     align-items: center;
     font-size: 2.5rem;
     font-weight: 600;
-    width: 100%;
-    height: 60%;
+    height: 100%;
+    transition: all 0.2s ease-in-out;
+
 }
 
 .WeatherMoreContainer {
@@ -902,7 +913,7 @@ table {
     justify-content: space-around;
     align-items: center;
     width: 90%;
-    height: 40%;
+    height: 50%;
 }
 
 .WeatherMore {
@@ -911,4 +922,6 @@ table {
     align-items: center;
     flex-direction: column;
     font-size: 1.4rem;
+    transition: all 0.2s ease-in-out;
+
 }

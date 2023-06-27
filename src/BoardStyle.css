@@ -23,8 +23,6 @@
     outline: none;
 }
 
-
-
 .SettingsBoardBtn {
     position: absolute;
     display: flex;
@@ -41,14 +39,122 @@
     cursor: pointer;
     color: white;
     background-color: rgba(59, 58, 59, 0.4);
-    padding-bottom: 0.35rem;
+    padding-bottom: 0.2rem;
     border-radius: 50%;
     transition: all 0.1s ease-in-out;
 }
-
 
 .SettingsBoardBtn:hover {
     background-color: rgba(59, 58, 59, 0.75);
     transition: all 0.1s ease-in-out;
 
+}
+
+.TutorialBtn {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    width: 3rem;
+    height: 3rem;
+    left: 110px;
+    bottom: 10px;
+    background-color: transparent;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    color: white;
+    background-color: rgba(59, 58, 59, 0.4);
+    border-radius: 50%;
+    padding-bottom: 0.2rem;
+    transition: all 0.1s ease-in-out;
+}
+
+
+.TutorialBtn:hover {
+    background-color: rgba(59, 58, 59, 0.75);
+    transition: all 0.1s ease-in-out;
+
+}
+
+
+.TutorialContainer.On {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1;
+    top: 0;
+    left: 0;
+
+}
+
+.TutorialContainer.Off {
+    display: none;
+}
+
+.TutorialBlur {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    backdrop-filter: blur(5px);
+}
+
+.TutorialWindow {
+    position: relative;
+    height: 90%;
+    width: 90%;
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background-color: rgba(0, 0, 0, 0.2);
+    border-width: 0.2rem;
+    border-style: solid;
+    border-color: var(--font-color);
+    border-radius: 10px;
+    z-index: 1;
+}
+
+
+
+.TutorialCloseBtn {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    width: 3rem;
+    height: 3rem;
+    top: 15px;
+    right: 20px;
+    background-color: transparent;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    color: white;
+    background-color: rgba(59, 58, 59, 0.4);
+    border-radius: 50%;
+    transition: all 0.1s ease-in-out;
+}
+
+
+.TutorialCloseBtn:hover {
+    background-color: rgba(59, 58, 59, 0.75);
+    transition: all 0.s ease-in-out;
+
+}
+
+.TutorialVideo {
+    width: 90%;
+    height: fit-content;
+    max-height: 90%;
+    border-radius: 10px;
 }

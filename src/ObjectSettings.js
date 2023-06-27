@@ -62,6 +62,10 @@ const ObjectSettings = ({
     clockForm,
     setClockForm,
 
+    //Unique For Weather
+    sizeWeatherIco,
+    setSizeWeatherIco,
+
     //Functions
     GeneralAttributeChanger
 }) => {
@@ -154,6 +158,31 @@ const ObjectSettings = ({
         }
     }
 
+    const PositionLeftChanger = (event) => {
+        const newPosition = event.target.value;
+        setPositionFromLeft(newPosition);
+        GeneralAttributeChanger(nowActiveObjectID, 'AttributePositionLeft', newPosition);
+    }
+
+    const PositionTopChanger = (event) => {
+        const newPosition = event.target.value;
+        setPositionFromTop(newPosition);
+        GeneralAttributeChanger(nowActiveObjectID, 'AttributePositionTop', newPosition);
+
+    }
+
+    const SizeXChanger = (event) => {
+        const newSize = event.target.value;
+        setSizeX(newSize);
+        GeneralAttributeChanger(nowActiveObjectID, 'AttributeWidth', newSize);
+    }
+
+    const SizeYChanger = (event) => {
+        const newSize = event.target.value;
+        setSizeY(newSize);
+        GeneralAttributeChanger(nowActiveObjectID, 'AttributeHeight', newSize);
+    }
+
 
     // Unique For Clock
 
@@ -164,7 +193,12 @@ const ObjectSettings = ({
     }
 
 
-
+    //Unique For Weather
+    const WeatherIcoSizeChanger = (event) => {
+        const newSize = event.target.value;
+        setSizeWeatherIco(newSize);
+        GeneralAttributeChanger(nowActiveObjectID, 'AttributeIcoSize', newSize);
+    }
 
 
     const CloseSettingsWindow = () => {
@@ -299,8 +333,8 @@ const ObjectSettings = ({
 
                         <div className="SettingsSectionsContent">
                             <select className="DropSelection" onChange={FontStyleChanger} style={{ fontFamily: fontStyle }}>
-                                <option value="Arial, Helvetica, sans-serif" style={{ fontFamily: "Arial, Helvetica, sans-serif" }}>Your Font</option>
                                 <option value="Shantell Sans, cursive" style={{ fontFamily: "Shantell Sans, cursive" }}>Your Font</option>
+                                <option value="Arial, Helvetica, sans-serif" style={{ fontFamily: "Arial, Helvetica, sans-serif" }}>Your Font</option>
                                 <option value="Quintessential, cursive" style={{ fontFamily: "Quintessential, cursive" }}>Your Font</option>
                                 <option value="Spline Sans Mono, monospace" style={{ fontFamily: "Spline Sans Mono, monospace" }}>Your Font</option>
                             </select>
@@ -334,6 +368,104 @@ const ObjectSettings = ({
 
                         </div>
 
+                    </div>
+
+                    <div className="SettingsSectionsContainer">
+
+                        <div className="SettingsSectionsTitle">Touch screens move</div>
+
+                        <div className="SettingsSectionsContent">
+                            <div className="DimentionContainer">
+                                <div className='HorizontalSettings'>
+                                    Move X axis
+                                    <input
+                                        className='HorizontalSlider'
+                                        type="range"
+                                        min="0"
+                                        step="1"
+                                        max={window.innerWidth - sizeX + 50}
+                                        value={positionFromLeft}
+                                        onChange={PositionLeftChanger}
+                                    />
+                                    <input
+                                        className='HorizontalInput'
+                                        type="number"
+                                        value={positionFromLeft}
+                                        onChange={PositionLeftChanger}
+                                    />
+                                </div>
+
+
+                                <div className='HorizontalSettings'>
+                                    Move Y axis
+                                    <input
+                                        className='HorizontalSlider'
+                                        type="range"
+                                        min="0"
+                                        step="1"
+                                        max={window.innerHeight - sizeY + 25}
+                                        value={positionFromTop}
+                                        onChange={PositionTopChanger}
+                                    />
+                                    <input
+                                        className='HorizontalInput'
+                                        type="number"
+                                        value={positionFromTop}
+                                        onChange={PositionTopChanger}
+                                    />
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="SettingsSectionsContainer">
+
+                        <div className="SettingsSectionsTitle">Touch screens size</div>
+
+                        <div className="SettingsSectionsContent">
+                            <div className="DimentionContainer">
+                                <div className='HorizontalSettings'>
+                                    Size X axis
+                                    <input
+                                        className='HorizontalSlider'
+                                        type="range"
+                                        min="150"
+                                        step="1"
+                                        max={window.innerWidth - positionFromLeft + 50}
+                                        value={sizeX}
+                                        onChange={SizeXChanger}
+                                    />
+                                    <input
+                                        className='HorizontalInput'
+                                        type="number"
+                                        value={sizeX}
+                                        onChange={SizeXChanger}
+                                    />
+                                </div>
+
+
+                                <div className='HorizontalSettings'>
+                                    Size Y axis
+                                    <input
+                                        className='HorizontalSlider'
+                                        type="range"
+                                        min="200"
+                                        step="1"
+                                        max={window.innerHeight - positionFromTop + 25}
+                                        value={sizeY}
+                                        onChange={SizeYChanger}
+                                    />
+                                    <input
+                                        className='HorizontalInput'
+                                        type="number"
+                                        value={sizeY}
+                                        onChange={SizeYChanger}
+                                    />
+                                </div>
+
+                            </div>
+                        </div>
                     </div>
 
 
@@ -492,8 +624,8 @@ const ObjectSettings = ({
 
                         <div className="SettingsSectionsContent">
                             <select className="DropSelection" onChange={FontStyleChanger} style={{ fontFamily: fontStyle }}>
-                                <option value="Arial, Helvetica, sans-serif" style={{ fontFamily: "Arial, Helvetica, sans-serif" }}>Your Font</option>
                                 <option value="Shantell Sans, cursive" style={{ fontFamily: "Shantell Sans, cursive" }}>Your Font</option>
+                                <option value="Arial, Helvetica, sans-serif" style={{ fontFamily: "Arial, Helvetica, sans-serif" }}>Your Font</option>
                                 <option value="Quintessential, cursive" style={{ fontFamily: "Quintessential, cursive" }}>Your Font</option>
                                 <option value="Spline Sans Mono, monospace" style={{ fontFamily: "Spline Sans Mono, monospace" }}>Your Font</option>
                             </select>
@@ -527,6 +659,104 @@ const ObjectSettings = ({
 
                         </div>
 
+                    </div>
+
+                    <div className="SettingsSectionsContainer">
+
+                        <div className="SettingsSectionsTitle">Touch screens move</div>
+
+                        <div className="SettingsSectionsContent">
+                            <div className="DimentionContainer">
+                                <div className='HorizontalSettings'>
+                                    Move X axis
+                                    <input
+                                        className='HorizontalSlider'
+                                        type="range"
+                                        min="0"
+                                        step="1"
+                                        max={window.innerWidth - sizeX + 50}
+                                        value={positionFromLeft}
+                                        onChange={PositionLeftChanger}
+                                    />
+                                    <input
+                                        className='HorizontalInput'
+                                        type="number"
+                                        value={positionFromLeft}
+                                        onChange={PositionLeftChanger}
+                                    />
+                                </div>
+
+
+                                <div className='HorizontalSettings'>
+                                    Move Y axis
+                                    <input
+                                        className='HorizontalSlider'
+                                        type="range"
+                                        min="0"
+                                        step="1"
+                                        max={window.innerHeight - sizeY + 25}
+                                        value={positionFromTop}
+                                        onChange={PositionTopChanger}
+                                    />
+                                    <input
+                                        className='HorizontalInput'
+                                        type="number"
+                                        value={positionFromTop}
+                                        onChange={PositionTopChanger}
+                                    />
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="SettingsSectionsContainer">
+
+                        <div className="SettingsSectionsTitle">Touch screens size</div>
+
+                        <div className="SettingsSectionsContent">
+                            <div className="DimentionContainer">
+                                <div className='HorizontalSettings'>
+                                    Size X axis
+                                    <input
+                                        className='HorizontalSlider'
+                                        type="range"
+                                        min="150"
+                                        step="1"
+                                        max={window.innerWidth - positionFromLeft + 50}
+                                        value={sizeX}
+                                        onChange={SizeXChanger}
+                                    />
+                                    <input
+                                        className='HorizontalInput'
+                                        type="number"
+                                        value={sizeX}
+                                        onChange={SizeXChanger}
+                                    />
+                                </div>
+
+
+                                <div className='HorizontalSettings'>
+                                    Size Y axis
+                                    <input
+                                        className='HorizontalSlider'
+                                        type="range"
+                                        min="200"
+                                        step="1"
+                                        max={window.innerHeight - positionFromTop + 25}
+                                        value={sizeY}
+                                        onChange={SizeYChanger}
+                                    />
+                                    <input
+                                        className='HorizontalInput'
+                                        type="number"
+                                        value={sizeY}
+                                        onChange={SizeYChanger}
+                                    />
+                                </div>
+
+                            </div>
+                        </div>
                     </div>
 
 
@@ -645,8 +875,9 @@ const ObjectSettings = ({
 
                         <div className="SettingsSectionsContent">
                             <select className="DropSelection" onChange={FontStyleChanger} style={{ fontFamily: fontStyle }}>
-                                <option value="Arial, Helvetica, sans-serif" style={{ fontFamily: "Arial, Helvetica, sans-serif" }}>Your Font</option>
                                 <option value="Shantell Sans, cursive" style={{ fontFamily: "Shantell Sans, cursive" }}>Your Font</option>
+
+                                <option value="Arial, Helvetica, sans-serif" style={{ fontFamily: "Arial, Helvetica, sans-serif" }}>Your Font</option>
                                 <option value="Quintessential, cursive" style={{ fontFamily: "Quintessential, cursive" }}>Your Font</option>
                                 <option value="Spline Sans Mono, monospace" style={{ fontFamily: "Spline Sans Mono, monospace" }}>Your Font</option>
                             </select>
@@ -680,6 +911,104 @@ const ObjectSettings = ({
 
                         </div>
 
+                    </div>
+
+                    <div className="SettingsSectionsContainer">
+
+                        <div className="SettingsSectionsTitle">Touch screens move</div>
+
+                        <div className="SettingsSectionsContent">
+                            <div className="DimentionContainer">
+                                <div className='HorizontalSettings'>
+                                    Move X axis
+                                    <input
+                                        className='HorizontalSlider'
+                                        type="range"
+                                        min="0"
+                                        step="1"
+                                        max={window.innerWidth - sizeX + 50}
+                                        value={positionFromLeft}
+                                        onChange={PositionLeftChanger}
+                                    />
+                                    <input
+                                        className='HorizontalInput'
+                                        type="number"
+                                        value={positionFromLeft}
+                                        onChange={PositionLeftChanger}
+                                    />
+                                </div>
+
+
+                                <div className='HorizontalSettings'>
+                                    Move Y axis
+                                    <input
+                                        className='HorizontalSlider'
+                                        type="range"
+                                        min="0"
+                                        step="1"
+                                        max={window.innerHeight - sizeY + 25}
+                                        value={positionFromTop}
+                                        onChange={PositionTopChanger}
+                                    />
+                                    <input
+                                        className='HorizontalInput'
+                                        type="number"
+                                        value={positionFromTop}
+                                        onChange={PositionTopChanger}
+                                    />
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="SettingsSectionsContainer">
+
+                        <div className="SettingsSectionsTitle">Touch screens size</div>
+
+                        <div className="SettingsSectionsContent">
+                            <div className="DimentionContainer">
+                                <div className='HorizontalSettings'>
+                                    Size X axis
+                                    <input
+                                        className='HorizontalSlider'
+                                        type="range"
+                                        min="150"
+                                        step="1"
+                                        max={window.innerWidth - positionFromLeft + 50}
+                                        value={sizeX}
+                                        onChange={SizeXChanger}
+                                    />
+                                    <input
+                                        className='HorizontalInput'
+                                        type="number"
+                                        value={sizeX}
+                                        onChange={SizeXChanger}
+                                    />
+                                </div>
+
+
+                                <div className='HorizontalSettings'>
+                                    Size Y axis
+                                    <input
+                                        className='HorizontalSlider'
+                                        type="range"
+                                        min="200"
+                                        step="1"
+                                        max={window.innerHeight - positionFromTop + 25}
+                                        value={sizeY}
+                                        onChange={SizeYChanger}
+                                    />
+                                    <input
+                                        className='HorizontalInput'
+                                        type="number"
+                                        value={sizeY}
+                                        onChange={SizeYChanger}
+                                    />
+                                </div>
+
+                            </div>
+                        </div>
                     </div>
 
 
@@ -788,6 +1117,31 @@ const ObjectSettings = ({
                                 </div>
 
                             </div>
+
+                            <div className="DimentionContainer">
+
+                                <div className='HorizontalSettings'>
+                                    Icon Size
+                                    <input
+                                        className='HorizontalSlider'
+                                        type="range"
+                                        min="0"
+                                        step="1"
+                                        max={100}
+                                        value={sizeWeatherIco}
+                                        onChange={WeatherIcoSizeChanger}
+                                    />
+                                    <input
+                                        className='HorizontalInput'
+                                        type="number"
+                                        value={sizeWeatherIco}
+                                        onChange={WeatherIcoSizeChanger}
+                                    />
+                                </div>
+
+                            </div>
+
+
                         </div>
                     </div>
 
@@ -798,8 +1152,8 @@ const ObjectSettings = ({
 
                         <div className="SettingsSectionsContent">
                             <select className="DropSelection" onChange={FontStyleChanger} style={{ fontFamily: fontStyle }}>
-                                <option value="Arial, Helvetica, sans-serif" style={{ fontFamily: "Arial, Helvetica, sans-serif" }}>Your Font</option>
                                 <option value="Shantell Sans, cursive" style={{ fontFamily: "Shantell Sans, cursive" }}>Your Font</option>
+                                <option value="Arial, Helvetica, sans-serif" style={{ fontFamily: "Arial, Helvetica, sans-serif" }}>Your Font</option>
                                 <option value="Quintessential, cursive" style={{ fontFamily: "Quintessential, cursive" }}>Your Font</option>
                                 <option value="Spline Sans Mono, monospace" style={{ fontFamily: "Spline Sans Mono, monospace" }}>Your Font</option>
                             </select>
@@ -833,6 +1187,104 @@ const ObjectSettings = ({
 
                         </div>
 
+                    </div>
+
+                    <div className="SettingsSectionsContainer">
+
+                        <div className="SettingsSectionsTitle">Touch screens move</div>
+
+                        <div className="SettingsSectionsContent">
+                            <div className="DimentionContainer">
+                                <div className='HorizontalSettings'>
+                                    Move X axis
+                                    <input
+                                        className='HorizontalSlider'
+                                        type="range"
+                                        min="0"
+                                        step="1"
+                                        max={window.innerWidth - sizeX + 50}
+                                        value={positionFromLeft}
+                                        onChange={PositionLeftChanger}
+                                    />
+                                    <input
+                                        className='HorizontalInput'
+                                        type="number"
+                                        value={positionFromLeft}
+                                        onChange={PositionLeftChanger}
+                                    />
+                                </div>
+
+
+                                <div className='HorizontalSettings'>
+                                    Move Y axis
+                                    <input
+                                        className='HorizontalSlider'
+                                        type="range"
+                                        min="0"
+                                        step="1"
+                                        max={window.innerHeight - sizeY + 25}
+                                        value={positionFromTop}
+                                        onChange={PositionTopChanger}
+                                    />
+                                    <input
+                                        className='HorizontalInput'
+                                        type="number"
+                                        value={positionFromTop}
+                                        onChange={PositionTopChanger}
+                                    />
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="SettingsSectionsContainer">
+
+                        <div className="SettingsSectionsTitle">Touch screens size</div>
+
+                        <div className="SettingsSectionsContent">
+                            <div className="DimentionContainer">
+                                <div className='HorizontalSettings'>
+                                    Size X axis
+                                    <input
+                                        className='HorizontalSlider'
+                                        type="range"
+                                        min="150"
+                                        step="1"
+                                        max={window.innerWidth - positionFromLeft + 50}
+                                        value={sizeX}
+                                        onChange={SizeXChanger}
+                                    />
+                                    <input
+                                        className='HorizontalInput'
+                                        type="number"
+                                        value={sizeX}
+                                        onChange={SizeXChanger}
+                                    />
+                                </div>
+
+
+                                <div className='HorizontalSettings'>
+                                    Size Y axis
+                                    <input
+                                        className='HorizontalSlider'
+                                        type="range"
+                                        min="200"
+                                        step="1"
+                                        max={window.innerHeight - positionFromTop + 25}
+                                        value={sizeY}
+                                        onChange={SizeYChanger}
+                                    />
+                                    <input
+                                        className='HorizontalInput'
+                                        type="number"
+                                        value={sizeY}
+                                        onChange={SizeYChanger}
+                                    />
+                                </div>
+
+                            </div>
+                        </div>
                     </div>
 
 

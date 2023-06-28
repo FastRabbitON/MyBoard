@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import BoardSettings from './BoardSettings';
+import { Tooltip } from 'react-tooltip';
 
-
+import "./App.css"
 
 import "./BoardStyle.css"
 import ObjectRender from './ObjectRender';
@@ -84,6 +85,18 @@ const BoardContainer = () => {
 
     const TutorialWindow = () => {
         setIsTutorial(current => !current);
+
+        if (activeBoardSettings === true) {
+            setActiveBoardSettings(false)
+        }
+
+        if (activeObjectSettings === true) {
+            setActiveObjectSettings(false)
+        }
+
+        if (isAddMenuOpen === true) {
+            setIsAddMenuOpen(false)
+        }
     }
 
 
@@ -111,13 +124,28 @@ const BoardContainer = () => {
                 BoardSettingsWindow={BoardSettingsWindow}
             />
 
-            <button className='SettingsBoardBtn' onClick={BoardSettingsWindow}>⚙</button>
+            <button
+                className='SettingsBoardBtn'
+                onClick={BoardSettingsWindow}
+                data-tooltip-id="TT-BottomBtn"
+                data-tooltip-content="Board Settings"
+                data-tooltip-place="top">
+                ⚙
+            </button>
 
-            <button className='TutorialBtn' onClick={TutorialWindow}
+            <button
+                className='TutorialBtn'
+                onClick={TutorialWindow}
                 style={{
                     fontFamily: "Spline Sans Mono, monospace"
-                }}> i </button>
+                }}
+                data-tooltip-id="TT-BottomBtn"
+                data-tooltip-content="How it works?"
+                data-tooltip-place="top">
+                i
+            </button>
 
+            <Tooltip id="TT-BottomBtn" />
 
             <div className={`TutorialContainer ${isTutorial ? "On" : "Off"}`}>
                 <div className="TutorialBlur" onClick={TutorialWindow}></div>

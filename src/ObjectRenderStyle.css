@@ -8,11 +8,11 @@
     left: 0px;
     bottom: 50px;
     width: 150px;
-    height: 150px;
+    height: 200px;
     background-color: rgba(59, 58, 59, 0.6);
     transition: all 0.3s ease-in-out;
     transform: translate(-100%);
-
+    z-index: 101;
 }
 
 .AddMenuContainer.On {
@@ -25,11 +25,18 @@
     left: 0px;
     bottom: 50px;
     width: 150px;
-    height: 150px;
+    height: 200px;
     background-color: rgba(59, 58, 59, 0.6);
     border-radius: 0 10px 10px 0;
     transition: all 0.3s ease-in-out;
     transform: translate(0%);
+    z-index: 101;
+}
+
+.AddMenuContainer div {
+    font-size: 2rem;
+    color: white;
+    border-bottom: 0.2rem solid white;
 }
 
 .AddMenuBtn {
@@ -651,6 +658,7 @@ input[type=number] {
 .CalendarTitle {
     text-align: center;
     text-transform: uppercase;
+    cursor: default;
 }
 
 .CalendarButtons {

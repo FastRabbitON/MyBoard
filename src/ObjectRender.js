@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react';
+import { Tooltip } from 'react-tooltip';
 
 
 import ObjectSettings from './ObjectSettings';
 
 import "./ObjectRenderStyle.css"
+import "./App.css"
 
 const ObjectRender = ({
     isAddMenuOpen,
@@ -717,7 +719,11 @@ const ObjectRender = ({
             />
 
 
+
             <div className={`AddMenuContainer ${isAddMenuOpen ? "On" : "Off"}`}>
+
+                <div> Add Objects</div>
+
                 <button className='AddObjectBtn' onClick={() => AddNewObject("Note")} >Note</button>
                 <button className='AddObjectBtn' onClick={() => AddNewObject("Clock")} >Clock</button>
                 <button className='AddObjectBtn' onClick={() => AddNewObject("Weather")} >Weather </button>
@@ -725,7 +731,20 @@ const ObjectRender = ({
 
             </div>
 
-            <button className='AddMenuBtn' onClick={MenuOpener}> + </button>
+            <button
+                className='AddMenuBtn'
+                onClick={MenuOpener}
+                data-tooltip-id="TT-BottomBtn"
+                data-tooltip-content="Add Objects"
+                data-tooltip-place="top">
+                +
+            </button>
+
+            <Tooltip id="TT-BottomBtn" />
+            <Tooltip id="TT-SettingsObjectBtn" />
+            <Tooltip id="TT-CloseObjectBtn" />
+            <Tooltip id="TT-ListNote" />
+            <Tooltip id="TT-Calendar" />
 
 
             {/* NOTE RENDER */}
@@ -753,7 +772,15 @@ const ObjectRender = ({
                         <div className="TopSectionNote">
 
                             <button className='RemoveNoteBtn' onClick={() => RemoveObject(note.AttributeID)} >
-                                <div style={{ color: note.AttributeAccentColor, fontFamily: note.AttributeFontStyle }}>X</div>
+                                <div style={{
+                                    color: note.AttributeAccentColor,
+                                    fontFamily: note.AttributeFontStyle
+                                }}
+                                    data-tooltip-id="TT-CloseObjectBtn"
+                                    data-tooltip-content="Close"
+                                    data-tooltip-place="top"
+                                >X
+                                </div>
                             </button>
 
                             <div className="MoveNote"
@@ -768,7 +795,12 @@ const ObjectRender = ({
                             </div>
 
                             <button className='SettingsNoteBtn' onClick={() => SettingsWindow(note.AttributeID, note.AttributeObjectType, note.AttributeTitle)} >
-                                <div style={{ color: note.AttributeAccentColor, fontFamily: note.AttributeFontStyle }}>⚙</div>
+                                <div
+                                    style={{ color: note.AttributeAccentColor, fontFamily: note.AttributeFontStyle }}
+                                    data-tooltip-id="TT-SettingsObjectBtn"
+                                    data-tooltip-content="Settings"
+                                    data-tooltip-place="top"
+                                >⚙</div>
                             </button>
 
                         </div>
@@ -839,7 +871,10 @@ const ObjectRender = ({
                                                     fontSize: `${note.AttributeContentSize}px`,
                                                     color: note.AttributeAccentColor,
                                                     fontFamily: note.AttributeFontStyle
-                                                }}>
+                                                }}
+                                                data-tooltip-id="TT-ListNote"
+                                                data-tooltip-content="Move Up"
+                                                data-tooltip-place="top">
                                                 ⇧</button>
 
                                             <button
@@ -848,7 +883,10 @@ const ObjectRender = ({
                                                     fontSize: `${note.AttributeContentSize}px`,
                                                     color: note.AttributeAccentColor,
                                                     fontFamily: note.AttributeFontStyle
-                                                }}>
+                                                }}
+                                                data-tooltip-id="TT-ListNote"
+                                                data-tooltip-content="Delete"
+                                                data-tooltip-place="top">
                                                 X</button>
 
                                             <button
@@ -858,7 +896,11 @@ const ObjectRender = ({
                                                     fontSize: `${note.AttributeContentSize}px`,
                                                     color: note.AttributeAccentColor,
                                                     fontFamily: note.AttributeFontStyle
-                                                }}>
+                                                }}
+                                                data-tooltip-id="TT-ListNote"
+                                                data-tooltip-content="Move Down"
+                                                data-tooltip-place="top">
+
                                                 ⇩</button>
 
                                         </div>
@@ -913,8 +955,13 @@ const ObjectRender = ({
                                 <div style={{
                                     color: clock.AttributeAccentColor,
                                     fontFamily: clock.AttributeFontStyle
-
-                                }}>X</div></button>
+                                }}
+                                    data-tooltip-id="TT-CloseObjectBtn"
+                                    data-tooltip-content="Close"
+                                    data-tooltip-place="top"
+                                >X
+                                </div>
+                            </button>
 
                             <div className="MoveClock"
                                 onMouseDown={(event) => MouseDownForMove(event, clock.AttributeID)}
@@ -936,8 +983,11 @@ const ObjectRender = ({
                                 <div style={{
                                     color: clock.AttributeAccentColor,
                                     fontFamily: clock.AttributeFontStyle
-
-                                }}>⚙</div></button>
+                                }}
+                                    data-tooltip-id="TT-SettingsObjectBtn"
+                                    data-tooltip-content="Settings"
+                                    data-tooltip-place="top"
+                                >⚙</div></button>
 
                         </div>
 
@@ -1080,7 +1130,16 @@ const ObjectRender = ({
                         <div className="TopSectionCalendar">
 
                             <button className='RemoveCalendarBtn' onClick={() => RemoveObject(calendar.AttributeID)} >
-                                <div style={{ color: calendar.AttributeAccentColor, fontFamily: calendar.AttributeFontStyle }}>X</div>
+                                <div style={{
+                                    color: calendar.AttributeAccentColor,
+                                    fontFamily: calendar.AttributeFontStyle
+                                }}
+                                    data-tooltip-id="TT-CloseObjectBtn"
+                                    data-tooltip-content="Close"
+                                    data-tooltip-place="top"
+                                >
+                                    X
+                                </div>
                             </button>
 
                             <div className="MoveCalendar"
@@ -1097,7 +1156,15 @@ const ObjectRender = ({
                             </div>
 
                             <button className='SettingsCalendarBtn' onClick={() => SettingsWindow(calendar.AttributeID, calendar.AttributeObjectType, "Calendar")} >
-                                <div style={{ color: calendar.AttributeAccentColor, fontFamily: calendar.AttributeFontStyle }}>⚙</div>
+                                <div
+                                    style={{
+                                        color: calendar.AttributeAccentColor,
+                                        fontFamily: calendar.AttributeFontStyle
+                                    }}
+                                    data-tooltip-id="TT-SettingsObjectBtn"
+                                    data-tooltip-content="Settings"
+                                    data-tooltip-place="top"
+                                >⚙</div>
                             </button>
 
                         </div>
@@ -1119,11 +1186,71 @@ const ObjectRender = ({
                                 </div>
 
                                 <div className="CalendarButtons">
-                                    <button onClick={prevYear} style={{ color: calendar.AttributeFontColor, fontSize: `${calendar.AttributeContentSize}px`, fontFamily: calendar.AttributeFontStyle }}>&lt;&lt;</button>
-                                    <button onClick={prevMonth} style={{ color: calendar.AttributeFontColor, fontSize: `${calendar.AttributeContentSize}px`, fontFamily: calendar.AttributeFontStyle }}>&lt;</button>
-                                    <button onClick={goToToday} style={{ color: calendar.AttributeFontColor, fontSize: `${calendar.AttributeContentSize}px`, fontFamily: calendar.AttributeFontStyle }}>Now</button>
-                                    <button onClick={nextMonth} style={{ color: calendar.AttributeFontColor, fontSize: `${calendar.AttributeContentSize}px`, fontFamily: calendar.AttributeFontStyle }}>&gt;</button>
-                                    <button onClick={nextYear} style={{ color: calendar.AttributeFontColor, fontSize: `${calendar.AttributeContentSize}px`, fontFamily: calendar.AttributeFontStyle }}>&gt;&gt;</button>
+                                    <button
+                                        onClick={prevYear}
+                                        style={{
+                                            color: calendar.AttributeFontColor,
+                                            fontSize: `${calendar.AttributeContentSize}px`,
+                                            fontFamily: calendar.AttributeFontStyle
+                                        }}
+                                        data-tooltip-id="TT-Calendar"
+                                        data-tooltip-content="Prev Year"
+                                        data-tooltip-place="top"
+                                    >
+                                        &lt;&lt;
+                                    </button>
+
+                                    <button
+                                        onClick={prevMonth}
+                                        style={{
+                                            color: calendar.AttributeFontColor,
+                                            fontSize: `${calendar.AttributeContentSize}px`,
+                                            fontFamily: calendar.AttributeFontStyle
+                                        }}
+                                        data-tooltip-id="TT-Calendar"
+                                        data-tooltip-content="Prev Month"
+                                        data-tooltip-place="top"
+                                    >
+                                        &lt;
+                                    </button>
+
+                                    <button
+                                        onClick={goToToday}
+                                        style={{
+                                            color: calendar.AttributeFontColor,
+                                            fontSize: `${calendar.AttributeContentSize}px`,
+                                            fontFamily: calendar.AttributeFontStyle
+                                        }}>
+                                        Now
+                                    </button>
+
+                                    <button
+                                        onClick={nextMonth}
+                                        style={{
+                                            color: calendar.AttributeFontColor,
+                                            fontSize: `${calendar.AttributeContentSize}px`,
+                                            fontFamily: calendar.AttributeFontStyle
+                                        }}
+                                        data-tooltip-id="TT-Calendar"
+                                        data-tooltip-content="Next Month"
+                                        data-tooltip-place="top"
+                                    >
+                                        &gt;
+                                    </button>
+
+                                    <button
+                                        onClick={nextYear}
+                                        style={{
+                                            color: calendar.AttributeFontColor,
+                                            fontSize: `${calendar.AttributeContentSize}px`,
+                                            fontFamily: calendar.AttributeFontStyle
+                                        }}
+                                        data-tooltip-id="TT-Calendar"
+                                        data-tooltip-content="Next Year"
+                                        data-tooltip-place="top"
+                                    >
+                                        &gt;&gt;
+                                    </button>
                                 </div>
 
                             </div>
@@ -1243,7 +1370,15 @@ const ObjectRender = ({
                         <div className="TopSectionWeather">
 
                             <button className='RemoveWeatherBtn' onClick={() => RemoveObject(weather.AttributeID)} >
-                                <div style={{ color: weather.AttributeAccentColor, fontFamily: weather.AttributeFontStyle }}>X</div>
+                                <div style={{
+                                    color: weather.AttributeAccentColor,
+                                    fontFamily: weather.AttributeFontStyle
+                                }}
+                                    data-tooltip-id="TT-CloseObjectBtn"
+                                    data-tooltip-content="Close"
+                                    data-tooltip-place="top"
+                                >X
+                                </div>
                             </button>
 
                             <div className="MoveWeather"
@@ -1258,7 +1393,14 @@ const ObjectRender = ({
                             </div>
 
                             <button className='SettingsWeatherBtn' onClick={() => SettingsWindow(weather.AttributeID, weather.AttributeObjectType, "Weather")} >
-                                <div style={{ color: weather.AttributeAccentColor, fontFamily: weather.AttributeFontStyle }}>⚙</div>
+                                <div
+                                    style={{
+                                        color: weather.AttributeAccentColor,
+                                        fontFamily: weather.AttributeFontStyle
+                                    }}
+                                    data-tooltip-id="TT-SettingsObjectBtn"
+                                    data-tooltip-content="Settings"
+                                    data-tooltip-place="top">⚙</div>
                             </button>
 
                         </div>

@@ -282,6 +282,8 @@ const ObjectRender = ({
         if (activeBoardSettings === true) {
             setActiveBoardSettings(false)
         }
+
+        console.log(renderObject);
     }
 
 
@@ -642,8 +644,30 @@ const ObjectRender = ({
         localStorage.setItem("RenderObject", JSON.stringify(updatedAttributes));
     }
 
+    const SaveDate = () => {
+        const json = JSON.stringify(renderObject, null, 2);
+        const element = document.createElement('a');
+        const fileContent = new Blob([json], { type: `application/json` });
+        element.download = `myBoardSave(${currentDate.toLocaleString('en-US', { dateStyle: 'short' })}).json`;
+        element.href = URL.createObjectURL(fileContent);
+        element.click();
+    }
 
+    const UploadDate = (event) => {
+        const file = event.target.files[0];
+        const reader = new FileReader();
 
+        reader.onload = (event) => {
+            try {
+                const jsonData = JSON.parse(event.target.result);
+                setRenderObject(jsonData);
+            } catch (error) {
+                console.error('Błąd podczas parsowania pliku JSON:', error);
+            }
+        };
+
+        reader.readAsText(file);
+    };
 
 
     return (
@@ -719,6 +743,14 @@ const ObjectRender = ({
             />
 
 
+            <Tooltip id="TT-BottomBtn" />
+            <Tooltip id="TT-SettingsObjectBtn" />
+            <Tooltip id="TT-CloseObjectBtn" />
+            <Tooltip id="TT-ListNote" />
+            <Tooltip id="TT-Calendar" />
+
+
+
 
             <div className={`AddMenuContainer ${isAddMenuOpen ? "On" : "Off"}`}>
 
@@ -740,11 +772,25 @@ const ObjectRender = ({
                 +
             </button>
 
-            <Tooltip id="TT-BottomBtn" />
-            <Tooltip id="TT-SettingsObjectBtn" />
-            <Tooltip id="TT-CloseObjectBtn" />
-            <Tooltip id="TT-ListNote" />
-            <Tooltip id="TT-Calendar" />
+            <button className='DownloadBtn'
+                onClick={SaveDate}
+                data-tooltip-id="TT-BottomBtn"
+                data-tooltip-content="Download Data"
+                data-tooltip-place="top">
+                ↧
+            </button>
+
+
+            <input type="file" onChange={UploadDate} id="actual-btn" hidden />
+            <label
+                className='UploadBtn'
+                for="actual-btn"
+                data-tooltip-id="TT-BottomBtn"
+                data-tooltip-content="Upload Data"
+                data-tooltip-place="top">
+                ↥
+            </label>
+
 
 
             {/* NOTE RENDER */}

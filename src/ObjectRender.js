@@ -8,6 +8,10 @@ import "./ObjectRenderStyle.css"
 import "./App.css"
 
 const ObjectRender = ({
+
+    renderObject,
+    setRenderObject,
+
     isAddMenuOpen,
     setIsAddMenuOpen,
     activeObjectSettings,
@@ -17,7 +21,6 @@ const ObjectRender = ({
 }) => {
 
 
-    const [renderObject, setRenderObject] = useState([]);
     const [nowActiveObjectID, setNowActiveObjectID] = useState(null);
     const [nowActiveObjectType, setNowActiveObjectType] = useState(null);
 
@@ -30,6 +33,8 @@ const ObjectRender = ({
 
     const [sizeX, setSizeX] = useState(400);
     const [sizeY, setSizeY] = useState(500);
+
+    const [angle, setAngle] = useState(0);
 
     const [titleSize, setTitleSize] = useState(25);
     const [contentSize, setContentSize] = useState(15);
@@ -71,6 +76,9 @@ const ObjectRender = ({
     // ADD NEW NOTE
     const AddNewObject = (ObjectType) => { //Funkcja dodająca do starej tablicę nową tablicę z nowym obiektem zawierającym atrybuty
 
+        if (isAddMenuOpen === true) {
+            setIsAddMenuOpen(false)
+        }
 
         if (ObjectType === "Note") {
             const NewObject = {
@@ -82,6 +90,7 @@ const ObjectRender = ({
                 AttributeShadow: true,
                 AttributeWidth: 350,
                 AttributeHeight: 400,
+                AttributeAngle: 0,
                 AttributeTitleSize: 20,
                 AttributeContentSize: 15,
                 AttributePositionLeft: 10,
@@ -108,6 +117,7 @@ const ObjectRender = ({
                 AttributeShadow: true,
                 AttributeWidth: 115,
                 AttributeHeight: 110,
+                AttributeAngle: 0,
                 AttributeTitleSize: 20,
                 AttributeContentSize: 20,
                 AttributePositionLeft: 10,
@@ -132,6 +142,7 @@ const ObjectRender = ({
                 AttributeShadow: true,
                 AttributeWidth: 350,
                 AttributeHeight: 300,
+                AttributeAngle: 0,
                 AttributeTitleSize: 20,
                 AttributeContentSize: 20,
                 AttributePositionLeft: 10,
@@ -156,6 +167,7 @@ const ObjectRender = ({
                 AttributeWidth: 240,
                 AttributeHeight: 140,
                 AttributeTitleSize: 20,
+                AttributeAngle: 0,
                 AttributeContentSize: 15,
                 AttributePositionLeft: 10,
                 AttributePositionTop: 10,
@@ -237,6 +249,7 @@ const ObjectRender = ({
 
         setNowActiveObjectType(ObjectType)
         setNowActiveObjectID(ID)
+        setNowActiveTitle(Title)
 
 
         const GetAttribute = renderObject.find(object => object.AttributeID === ID);
@@ -245,7 +258,7 @@ const ObjectRender = ({
                 AttributeColor, AttributeFontColor, AttributeAccentColor, AttributeTitleSize,
                 AttributeContentSize, AttributeFontStyle, AttributeLayer, AttributeShadow,
                 AttributeClockForm, AttributePositionLeft, AttributePositionTop, AttributeWidth,
-                AttributeHeight, AttributeTitle, AttributeIcoSize } = GetAttribute;
+                AttributeHeight, AttributeIcoSize, AttributeAngle } = GetAttribute;
             setBackgroundColor(AttributeColor);
             setFontColor(AttributeFontColor);
             setAccentColor(AttributeAccentColor);
@@ -258,9 +271,8 @@ const ObjectRender = ({
             setPositionFromTop(AttributePositionTop);
             setSizeX(AttributeWidth);
             setSizeY(AttributeHeight);
+            setAngle(AttributeAngle);
 
-            //Unique For Note
-            setNowActiveTitle(AttributeTitle)
 
             //Unique For Clock
             setClockForm(AttributeClockForm)
@@ -720,6 +732,11 @@ const ObjectRender = ({
                 fontStyle={fontStyle}
                 setNoteFontStyle={setNoteFontStyle}
 
+                angle={angle}
+                setAngle={setAngle}
+
+
+
                 //Unique for Note
                 contentNote={contentNote}
                 setContentNote={setContentNote}
@@ -811,7 +828,8 @@ const ObjectRender = ({
                             border: `1px solid ${note.AttributeAccentColor}`,
                             boxShadow: `${note.AttributeShadow ? `8px 8px 24px 0px ${note.AttributeAccentColor}` : "0px 0px 0px 0px black"} `,
                             zIndex: note.AttributeLayer,
-                            position: 'absolute'
+                            position: 'absolute',
+                            rotate: `${note.AttributeAngle}deg`
                         }}>
 
 
@@ -989,6 +1007,8 @@ const ObjectRender = ({
                             boxShadow: `${clock.AttributeShadow ? `8px 8px 24px 0px ${clock.AttributeAccentColor}` : "0px 0px 0px 0px black"} `,
                             zIndex: clock.AttributeLayer,
                             position: 'absolute',
+                            rotate: `${clock.AttributeAngle}deg`
+
                         }}
 
                     >
@@ -1169,7 +1189,9 @@ const ObjectRender = ({
                             zIndex: calendar.AttributeLayer,
                             border: `1px solid ${calendar.AttributeAccentColor}`,
                             boxShadow: `${calendar.AttributeShadow ? `8px 8px 24px 0px ${calendar.AttributeAccentColor}` : "0px 0px 0px 0px black"} `,
-                            position: 'absolute'
+                            position: 'absolute',
+                            rotate: `${calendar.AttributeAngle}deg`
+
                         }}>
 
 
@@ -1409,7 +1431,9 @@ const ObjectRender = ({
                             border: `1px solid ${weather.AttributeAccentColor}`,
                             boxShadow: `${weather.AttributeShadow ? `8px 8px 24px 0px ${weather.AttributeAccentColor}` : "0px 0px 0px 0px black"} `,
                             zIndex: weather.AttributeLayer,
-                            position: 'absolute'
+                            position: 'absolute',
+                            rotate: `${weather.AttributeAngle}deg`
+
                         }}>
 
 

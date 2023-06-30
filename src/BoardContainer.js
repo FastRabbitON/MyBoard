@@ -36,12 +36,11 @@ const BoardContainer = () => {
         return localDataTitle ? JSON.parse(localDataTitle) : "Shantell Sans, cursive";
     })
 
+    const [renderObject, setRenderObject] = useState([]);
 
     const [isTutorial, setIsTutorial] = useState(false);
-
     const [activeBoardSettings, setActiveBoardSettings] = useState(false);
     const [activeObjectSettings, setActiveObjectSettings] = useState(false);
-
 
     const [isAddMenuOpen, setIsAddMenuOpen] = useState(false)
 
@@ -147,6 +146,8 @@ const BoardContainer = () => {
                 i
             </button>
 
+            {/* <button className='ClearAllBtn'>X</button> */}
+
             <Tooltip id="TT-BottomBtn" />
 
             <div className={`TutorialContainer ${isTutorial ? "On" : "Off"}`}>
@@ -200,6 +201,9 @@ const BoardContainer = () => {
 
                 activeBoardSettings={activeBoardSettings}
                 setActiveBoardSettings={setActiveBoardSettings}
+
+                renderObject={renderObject}
+                setRenderObject={setRenderObject}
 
 
             />

@@ -50,6 +50,9 @@ const ObjectSettings = ({
     fontStyle,
     setNoteFontStyle,
 
+    angle,
+    setAngle,
+
     //Unique for Note
     contentNote,
     setContentNote,
@@ -181,6 +184,12 @@ const ObjectSettings = ({
         const newSize = event.target.value;
         setSizeY(newSize);
         GeneralAttributeChanger(nowActiveObjectID, 'AttributeHeight', newSize);
+    }
+
+    const AngleChanger = (event) => {
+        const newAngle = event.target.value
+        setAngle(newAngle)
+        GeneralAttributeChanger(nowActiveObjectID, 'AttributeAngle', newAngle)
     }
 
 
@@ -326,6 +335,34 @@ const ObjectSettings = ({
                         </div>
                     </div>
 
+                    <div className="SettingsSectionsContainer">
+
+                        <div className="SettingsSectionsTitle">Note Rotation</div>
+
+                        <div className="SettingsSectionsContent">
+                            <div className="DimentionContainer">
+                                <div className='HorizontalSettings'>
+                                    Angle
+                                    <input
+                                        className='HorizontalSlider'
+                                        type="range"
+                                        min={-180}
+                                        step="0.1"
+                                        max={180}
+                                        value={angle}
+                                        onChange={AngleChanger}
+                                    />
+                                    <input
+                                        className='HorizontalInput'
+                                        type="number"
+                                        value={angle}
+                                        onChange={AngleChanger}
+                                    />
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
 
                     <div className="SettingsSectionsContainer">
 
@@ -528,6 +565,8 @@ const ObjectSettings = ({
 
                     </div>
 
+
+
                     <div className="SettingsSectionsContainer">
 
                         <div className="SettingsSectionsTitle">Font Size Settings</div>
@@ -570,6 +609,35 @@ const ObjectSettings = ({
                                         type="number"
                                         value={contentSize}
                                         onChange={ContentSizeChanger}
+                                    />
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="SettingsSectionsContainer">
+
+                        <div className="SettingsSectionsTitle">Clock Rotation</div>
+
+                        <div className="SettingsSectionsContent">
+                            <div className="DimentionContainer">
+                                <div className='HorizontalSettings'>
+                                    Angle
+                                    <input
+                                        className='HorizontalSlider'
+                                        type="range"
+                                        min={-180}
+                                        step="0.1"
+                                        max={180}
+                                        value={angle}
+                                        onChange={AngleChanger}
+                                    />
+                                    <input
+                                        className='HorizontalInput'
+                                        type="number"
+                                        value={angle}
+                                        onChange={AngleChanger}
                                     />
                                 </div>
 
@@ -868,6 +936,34 @@ const ObjectSettings = ({
                         </div>
                     </div>
 
+                    <div className="SettingsSectionsContainer">
+
+                        <div className="SettingsSectionsTitle">Calendar Rotation</div>
+
+                        <div className="SettingsSectionsContent">
+                            <div className="DimentionContainer">
+                                <div className='HorizontalSettings'>
+                                    Angle
+                                    <input
+                                        className='HorizontalSlider'
+                                        type="range"
+                                        min={-180}
+                                        step="0.1"
+                                        max={180}
+                                        value={angle}
+                                        onChange={AngleChanger}
+                                    />
+                                    <input
+                                        className='HorizontalInput'
+                                        type="number"
+                                        value={angle}
+                                        onChange={AngleChanger}
+                                    />
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
 
                     <div className="SettingsSectionsContainer">
 
@@ -1145,6 +1241,35 @@ const ObjectSettings = ({
                         </div>
                     </div>
 
+                    <div className="SettingsSectionsContainer">
+
+                        <div className="SettingsSectionsTitle">Weather Rotation</div>
+
+                        <div className="SettingsSectionsContent">
+                            <div className="DimentionContainer">
+                                <div className='HorizontalSettings'>
+                                    Angle
+                                    <input
+                                        className='HorizontalSlider'
+                                        type="range"
+                                        min={-180}
+                                        step="0.1"
+                                        max={180}
+                                        value={angle}
+                                        onChange={AngleChanger}
+                                    />
+                                    <input
+                                        className='HorizontalInput'
+                                        type="number"
+                                        value={angle}
+                                        onChange={AngleChanger}
+                                    />
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
 
                     <div className="SettingsSectionsContainer">
 
@@ -1289,7 +1414,6 @@ const ObjectSettings = ({
 
 
                 </div >
-
 
 
             </div>

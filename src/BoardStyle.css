@@ -77,6 +77,34 @@
 
 }
 
+.TutorialBtn {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    width: 3rem;
+    height: 3rem;
+    left: 90px;
+    bottom: 10px;
+    background-color: transparent;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    color: white;
+    background-color: rgba(59, 58, 59, 0.4);
+    border-radius: 50%;
+    transition: all 0.1s ease-in-out;
+}
+
+
+.TutorialBtn:hover {
+    background-color: rgba(59, 58, 59, 0.75);
+    transition: all 0.1s ease-in-out;
+
+}
+
+
 
 .TutorialContainer.On {
     position: absolute;

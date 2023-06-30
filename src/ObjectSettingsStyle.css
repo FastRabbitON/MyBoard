@@ -38,8 +38,6 @@
     transform: translate(100%);
     overflow-y: scroll;
     overflow-x: hidden;
-    -ms-overflow-style: none;
-    scrollbar-width: none;
     z-index: 100;
 }
 
@@ -63,15 +61,37 @@
     transform: translate(0%);
     overflow-y: scroll;
     overflow-x: hidden;
-    -ms-overflow-style: none;
-    scrollbar-width: none;
     z-index: 100;
 }
 
+/* width */
 .SettingsContainer.On::-webkit-scrollbar,
 .SettingsContainer.Off::-webkit-scrollbar {
-    display: none;
+    width: 12px;
 }
+
+/* Track */
+.SettingsContainer.On::-webkit-scrollbar-track,
+.SettingsContainer.Off::-webkit-scrollbar-track {
+    background: rgba(59, 58, 59, 0.85);
+}
+
+/* Handle */
+.SettingsContainer.On::-webkit-scrollbar-thumb,
+.SettingsContainer.Off::-webkit-scrollbar-thumb {
+    background: #888;
+    transition: all 0.2s ease-in-out;
+}
+
+/* Handle on hover */
+.SettingsContainer.On::-webkit-scrollbar-thumb:hover,
+.SettingsContainer.Off::-webkit-scrollbar-thumb:hover {
+    background: rgb(30, 30, 30);
+    transition: all 0.2s ease-in-out;
+
+}
+
+
 
 .CloseSettingNoteBtn {
     position: relative;

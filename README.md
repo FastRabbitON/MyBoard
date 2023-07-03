@@ -42,7 +42,8 @@ Project is not fully adjust to touch screen devices yet
 - 26-06-2023: Reduce code significantly, prepare cod to easier way in adding new widgets in future.
   Add widget - weather (beta version)
 - 27-06-2023: Full version of weather widget, add tooltip informations, add tutorial video.
-- 28-06-2023: Download and upload data.
+- 28-06-2023: Download and upload data options.
+- 03-07-2023: Rotation options for all widgets and gradient board background.
 
 ## Project Status
 Under development

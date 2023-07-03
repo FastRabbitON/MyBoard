@@ -16,92 +16,128 @@ const BoardSettings = ({
   activeNoteSettings,
   setActiveNoteSettings,
   activeClockSettings,
-  setActiveClockSettings
+  setActiveClockSettings,
+
+  radioBackCheck,
+  setRadioBackCheck,
+
+  boardPlaneColor,
+  setBoardPlaneColor,
+
+  boardGradOneColor,
+  setBoardGradOneColor,
+
+  boardGradTwoColor,
+  setBoardGradTwoColor,
+
+  gradientAngle,
+  setGradientAngle,
+
+  BoardAttributeChanger,
+  BoardBackgroundChanger
+
 }) => {
 
   //VARIABLES
-  const [boardPlaneColor, setBoardPlaneColor] = useState(() => {
-    const localDataTitle = localStorage.getItem("BackgroundPlane");
-    return localDataTitle ? JSON.parse(localDataTitle) : "#b7b6bb";
-  })
 
-  const [boardGradOneColor, setBoardGradOneColor] = useState(() => {
-    const localDataTitle = localStorage.getItem("BackgroundGradOne");
-    return localDataTitle ? JSON.parse(localDataTitle) : "#3f5efb";
-  })
-
-  const [boardGradTwoColor, setBoardGradTwoColor] = useState(() => {
-    const localDataTitle = localStorage.getItem("BackgroundGradTwo");
-    return localDataTitle ? JSON.parse(localDataTitle) : "#fc466b";
-  })
 
   const [isActiveBackgroundBoard, setIsActiveBckgroundBoard] = useState(false);
-  const OpenColorBackgroundBoard = () => {
+  const OpenColorBackgroundBoard = (event) => {
     setIsActiveBckgroundBoard(current => !current);
+    event.preventDefault();
   }
 
   const [isActiveGradOneBoard, setIsActiveGradOneBoard] = useState(false);
-  const OpenColorGradOneBoard = () => {
+  const OpenColorGradOneBoard = (event) => {
     setIsActiveGradOneBoard(current => !current);
+    event.preventDefault();
   }
 
   const [isActiveGradTwoBoard, setIsActiveGradTwoBoard] = useState(false);
-  const OpenColorGradTwoBoard = () => {
+  const OpenColorGradTwoBoard = (event) => {
     setIsActiveGradTwoBoard(current => !current);
+    event.preventDefault();
   }
 
   const [isActiveColorTitleBoard, setIsActiveColorTitleBoard] = useState(false);
-  const OpenColorTitleBoard = () => {
+  const OpenColorTitleBoard = (event) => {
     setIsActiveColorTitleBoard(current => !current);
+    event.preventDefault();
   }
 
 
-  //SAVE TO LOCALSTORE
-  useEffect(() => {
-    localStorage.setItem("BackgroundSave", JSON.stringify(selectedBackgroundColor))
-  }, [selectedBackgroundColor])
+  const BoardBackgroundChooser = (event) => {
+    const value = event.target.value;
+    setRadioBackCheck(value);
 
-  useEffect(() => {
-    localStorage.setItem("BackgroundPlane", JSON.stringify(boardPlaneColor))
-  }, [boardPlaneColor])
+    console.log(value)
 
-  useEffect(() => {
-    localStorage.setItem("BackgroundGrdOne", JSON.stringify(boardGradOneColor))
-  }, [boardGradOneColor])
 
-  useEffect(() => {
-    localStorage.setItem("BackgroundGradTwo", JSON.stringify(boardGradTwoColor))
-  }, [boardGradTwoColor])
+    if (value === "Plane") {
+      BoardAttributeChanger("AttributeBackPlane", boardPlaneColor);
+      BoardAttributeChanger("AttributeRadioChecked", value);
+    }
 
-  useEffect(() => {
-    localStorage.setItem("BackgroundTitleSize", JSON.stringify(boardTitleSize))
-  }, [boardTitleSize])
+    if (value === "Gradient") {
+      BoardBackgroundChanger(boardGradOneColor, boardGradTwoColor);
+      BoardAttributeChanger("AttributeRadioChecked", value);
+    }
 
-  useEffect(() => {
-    localStorage.setItem("BackgroundTitleColor", JSON.stringify(boardTitleColor))
-  }, [boardTitleColor])
-
-  useEffect(() => {
-    localStorage.setItem("BoardFontStyle", JSON.stringify(boardFontStyle))
-  }, [boardFontStyle])
-
+  };
 
 
   //GET COLORS FROM COLORPICKER
   const PickerChangePlane = (e) => {
-    setSelectedBackgroundColor(`linear-gradient(90deg, ${e.hex}, ${e.hex})`)
     setBoardPlaneColor(e.hex)
+
+
+    BoardAttributeChanger("AttributeBackPlane", boardPlaneColor);
+
+
   }
 
   const PickerChangeGradOne = (e) => {
-    setSelectedBackgroundColor(`linear-gradient(90deg, ${e.hex}, ${boardGradTwoColor})`)
     setBoardGradOneColor(e.hex)
+
+
+    BoardBackgroundChanger(boardGradOneColor, boardGradTwoColor);
+
+
   }
 
   const PickerChangeGradTwo = (e) => {
-    setSelectedBackgroundColor(`linear-gradient(90deg, ${boardGradOneColor}, ${e.hex})`)
     setBoardGradTwoColor(e.hex)
+
+
+    BoardBackgroundChanger(boardGradOneColor, boardGradTwoColor);
+
   }
+
+  const TitleColorChanger = (e) => {
+    setBoardTitleColor(e.hex)
+    BoardAttributeChanger("AttributeBoardTitleColor", boardTitleColor)
+  }
+
+  const TitleSizeChanger = (e) => {
+    const value = e.target.value
+    setBoardTitleSize(value)
+    BoardAttributeChanger("AttributeBoardTitleSize", value)
+
+  }
+
+  const TitleFontChanger = (e) => {
+    const value = e.target.value
+    setBoardFontStyle(value)
+    BoardAttributeChanger("AttributeBoardTitleStyle", value)
+  }
+
+  const GradientAngleChanger = (e) => {
+    const value = e.target.value
+    setGradientAngle(value)
+    BoardAttributeChanger("AttributeAngleGradient", value)
+  }
+
+
 
 
   return (
@@ -113,46 +149,81 @@ const BoardSettings = ({
       <div className={`SettingsContainer ${activeBoardSettings ? "On" : "Off"}`}>
         <button className="CloseSettingNoteBtn" onClick={BoardSettingsWindow}>X</button>
 
+
         <div className="SettingsSectionsContainer">
 
           <div className="SettingsSectionsTitle">Board Background Color</div>
 
           <div className="SettingsSectionsContent">
 
-            <div className='ColorContainer'>
-              <div className="ColorTitle">Plane</div>
-              <button className="ColorBtn" onClick={OpenColorBackgroundBoard} style={{ backgroundColor: boardPlaneColor }}> </button>
-            </div>
+            <form className='FormColorContainer' onChange={BoardBackgroundChooser}>
+
+              <div className='FormColorSection'>
+
+                <input type="radio" id="PlaneColor" name="colores" value="Plane" checked={radioBackCheck === "Plane"} />
+                <div className='ColorContainer'>
+                  <div className="ColorTitle">Plane</div>
+                  <button className="ColorBtn" onClick={OpenColorBackgroundBoard} style={{ backgroundColor: boardPlaneColor }}> </button>
+                </div>
+
+              </div>
+
+              <div className={`ColorPicker ${isActiveBackgroundBoard ? "On" : "Off"}`}>
+                <ChromePicker
+                  disableAlpha
+                  color={boardPlaneColor}
+                  onChange={PickerChangePlane}
+                />
+              </div>
+
+              <div className='FormColorSection'>
+
+                <input type="radio" id="GradientColor" name="colores" value="Gradient" checked={radioBackCheck === "Gradient"} />
+                <div className='ColorContainer'>
+                  <div className="ColorTitle">Gradient</div>
+                  <button className="ColorBtn" onClick={OpenColorGradOneBoard} style={{ backgroundColor: boardGradOneColor }}> </button>
+                  <button className="ColorBtn" onClick={OpenColorGradTwoBoard} style={{ backgroundColor: boardGradTwoColor }}> </button>
+                </div>
+
+              </div>
+
+              <div className={`ColorPicker ${isActiveGradOneBoard ? "On" : "Off"}`}>
+                <ChromePicker
+                  disableAlpha
+                  color={boardGradOneColor}
+                  onChange={PickerChangeGradOne} />
+
+              </div>
+              <div className={`ColorPicker ${isActiveGradTwoBoard ? "On" : "Off"}`}>
+                <ChromePicker
+                  disableAlpha
+                  color={boardGradTwoColor}
+                  onChange={PickerChangeGradTwo} />
+              </div>
+
+            </form>
 
 
-            <div className={`ColorPicker ${isActiveBackgroundBoard ? "On" : "Off"}`}>
-              <ChromePicker
-                disableAlpha
-                color={boardPlaneColor}
-                onChange={PickerChangePlane}
-              />
-            </div>
+            <div className="DimentionContainer">
+              <div className='HorizontalSettings'>
+                Gradient Angle
+                <input
+                  className='HorizontalSlider'
+                  type="range"
+                  min="0"
+                  step="1"
+                  max={360}
+                  value={gradientAngle}
+                  onChange={GradientAngleChanger}
+                />
+                <input
+                  className='HorizontalInput'
+                  type="number"
+                  value={gradientAngle}
+                  onChange={GradientAngleChanger}
+                />
+              </div>
 
-
-            <div className='ColorContainer'>
-              <div className="ColorTitle">Gradient</div>
-              <button className="ColorBtn" onClick={OpenColorGradOneBoard} style={{ backgroundColor: boardGradOneColor }}> </button>
-              <button className="ColorBtn" onClick={OpenColorGradTwoBoard} style={{ backgroundColor: boardGradTwoColor }}> </button>
-            </div>
-
-
-            <div className={`ColorPicker ${isActiveGradOneBoard ? "On" : "Off"}`}>
-              <ChromePicker
-                disableAlpha
-                color={boardGradOneColor}
-                onChange={PickerChangeGradOne} />
-
-            </div>
-            <div className={`ColorPicker ${isActiveGradTwoBoard ? "On" : "Off"}`}>
-              <ChromePicker
-                disableAlpha
-                color={boardGradTwoColor}
-                onChange={PickerChangeGradTwo} />
             </div>
 
           </div>
@@ -175,7 +246,7 @@ const BoardSettings = ({
               <ChromePicker
                 disableAlpha
                 color={boardTitleColor}
-                onChange={(e) => setBoardTitleColor(e.hex)} />
+                onChange={TitleColorChanger} />
             </div>
 
 
@@ -197,13 +268,13 @@ const BoardSettings = ({
                   step="1"
                   max={100}
                   value={boardTitleSize}
-                  onChange={(e) => setBoardTitleSize(e.target.value)}
+                  onChange={TitleSizeChanger}
                 />
                 <input
                   className='HorizontalInput'
                   type="number"
                   value={boardTitleSize}
-                  onChange={(e) => setBoardTitleSize(e.target.value)}
+                  onChange={TitleSizeChanger}
                 />
               </div>
 
@@ -218,7 +289,7 @@ const BoardSettings = ({
           <div className="SettingsSectionsTitle">Title Font Style</div>
 
           <div className="SettingsSectionsContent">
-            <select className="DropSelection" onChange={(e) => setBoardFontStyle(e.target.value)} style={{ fontFamily: boardFontStyle }}>
+            <select className="DropSelection" onChange={TitleFontChanger} style={{ fontFamily: boardFontStyle }}>
               <option value="Shantell Sans, cursive" style={{ fontFamily: "Shantell Sans, cursive" }}>Your Font</option>
               <option value="Arial, Helvetica, sans-serif" style={{ fontFamily: "Arial, Helvetica, sans-serif" }}>Your Font</option>
               <option value="Quintessential, cursive" style={{ fontFamily: "Quintessential, cursive" }}>Your Font</option>

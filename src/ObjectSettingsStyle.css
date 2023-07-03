@@ -298,3 +298,17 @@
     font-size: 1.8rem;
     color: white;
 }
+
+
+.FormColorContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.FormColorSection {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

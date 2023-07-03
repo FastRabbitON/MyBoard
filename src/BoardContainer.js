@@ -11,45 +11,72 @@ import ObjectRender from './ObjectRender';
 const BoardContainer = () => {
 
     //VARIABLES
-    const [boardTitle, setBoardTitle] = useState(() => {
-        const localDataTitle = localStorage.getItem("BackgroundTitle");
-        return localDataTitle ? JSON.parse(localDataTitle) : "myBOARD";
-    })
 
-    const [selectedBackgroundColor, setSelectedBackgroundColor] = useState(() => {
-        const localDataTitle = localStorage.getItem("BackgroundSave");
-        return localDataTitle ? JSON.parse(localDataTitle) : "#b7b6bb";
-    })
+    const [boardTitle, setBoardTitle] = useState()
+    const [selectedBackgroundColor, setSelectedBackgroundColor] = useState()
+    const [boardTitleSize, setBoardTitleSize] = useState()
+    const [boardTitleColor, setBoardTitleColor] = useState()
+    const [boardFontStyle, setBoardFontStyle] = useState()
 
-    const [boardTitleSize, setBoardTitleSize] = useState(() => {
-        const localDataTitle = localStorage.getItem("BackgroundTitleSize");
-        return localDataTitle ? JSON.parse(localDataTitle) : 40;
-    })
+    const [boardPlaneColor, setBoardPlaneColor] = useState("#b7b6bb")
 
-    const [boardTitleColor, setBoardTitleColor] = useState(() => {
-        const localDataTitle = localStorage.getItem("BackgroundTitleColor");
-        return localDataTitle ? JSON.parse(localDataTitle) : "#0d0d0d";
-    })
+    const [boardGradOneColor, setBoardGradOneColor] = useState("#3f5efb")
 
-    const [boardFontStyle, setBoardFontStyle] = useState(() => {
-        const localDataTitle = localStorage.getItem("BoardFontStyle");
-        return localDataTitle ? JSON.parse(localDataTitle) : "Shantell Sans, cursive";
-    })
+    const [boardGradTwoColor, setBoardGradTwoColor] = useState("#fc466b")
 
-    const [renderObject, setRenderObject] = useState([]);
+    const [gradientAngle, setGradientAngle] = useState(0)
 
+
+    const [renderObject, setRenderObject] = useState([])
     const [isTutorial, setIsTutorial] = useState(false);
     const [activeBoardSettings, setActiveBoardSettings] = useState(false);
     const [activeObjectSettings, setActiveObjectSettings] = useState(false);
-
     const [isAddMenuOpen, setIsAddMenuOpen] = useState(false)
 
+    const [radioBackCheck, setRadioBackCheck] = useState("Plane")
 
-    // SAVE TO LOCALSTORE  BOARD TITLE
+
+    const [BoardAttributes, setBoardAttributes] = useState(() => {
+        const localData = localStorage.getItem("BoardLocalAttribute");
+        return localData
+            ? JSON.parse(localData)
+            : {
+                AttributeBoardTitle: "myBoard",
+                AttributeBoardTitleSize: 40,
+                AttributeBoardTitleColor: "#0d0d0d",
+                AttributeBoardTitleStyle: "Shantell Sans, cursive",
+                AttributeBackPlane: "#b7b6bb",
+                AttributeBackGradColorOne: "#3f5efb",
+                AttributeBackGradColorTwo: "#fc466b",
+                AttributeAngleGradient: 90,
+                AttributeRadioChecked: "Plane",
+            };
+    });
+
     useEffect(() => {
-        localStorage.setItem("BackgroundTitle", JSON.stringify(boardTitle))
-    }, [boardTitle])
+        if (!localStorage.getItem("BoardLocalAttribute")) {
+            localStorage.setItem(
+                "BoardLocalAttribute",
+                JSON.stringify(BoardAttributes)
+            );
+        }
+    }, []);
 
+
+    const BoardAttributeChanger = (AttributeToChange, Value) => {
+
+        const updateAttribute = { ...BoardAttributes, [AttributeToChange]: Value };
+        setBoardAttributes(updateAttribute);
+        localStorage.setItem('BoardLocalAttribute', JSON.stringify(updateAttribute));
+
+    }
+
+
+    const BoardBackgroundChanger = (ColorOneValue, ColorTwoValue) => {
+        const updateAttribute = { ...BoardAttributes, AttributeBackGradColorOne: ColorOneValue, AttributeBackGradColorTwo: ColorTwoValue }
+        setBoardAttributes(updateAttribute);
+        localStorage.setItem('BoardLocalAttribute', JSON.stringify(updateAttribute));
+    }
 
 
     const AllWindowsClose = () => {
@@ -79,6 +106,27 @@ const BoardContainer = () => {
         if (isAddMenuOpen === true) {
             setIsAddMenuOpen(false)
         }
+
+
+        const {
+            AttributeBoardTitleSize,
+            AttributeBoardTitleColor,
+            AttributeBoardTitleStyle,
+            AttributeBackPlane,
+            AttributeBackGradColorOne,
+            AttributeBackGradColorTwo,
+            AttributeAngleGradient,
+            AttributeRadioChecked
+        } = BoardAttributes;
+
+        setBoardTitleSize(AttributeBoardTitleSize)
+        setBoardTitleColor(AttributeBoardTitleColor)
+        setBoardFontStyle(AttributeBoardTitleStyle)
+        setBoardPlaneColor(AttributeBackPlane)
+        setBoardGradOneColor(AttributeBackGradColorOne)
+        setBoardGradTwoColor(AttributeBackGradColorTwo)
+        setRadioBackCheck(AttributeRadioChecked)
+        setGradientAngle(AttributeAngleGradient)
 
     }
 
@@ -121,6 +169,24 @@ const BoardContainer = () => {
                 activeBoardSettings={activeBoardSettings}
                 setActiveBoardSettings={setActiveBoardSettings}
 
+                boardPlaneColor={boardPlaneColor}
+                setBoardPlaneColor={setBoardPlaneColor}
+
+                boardGradOneColor={boardGradOneColor}
+                setBoardGradOneColor={setBoardGradOneColor}
+
+                boardGradTwoColor={boardGradTwoColor}
+                setBoardGradTwoColor={setBoardGradTwoColor}
+
+                radioBackCheck={radioBackCheck}
+                setRadioBackCheck={setRadioBackCheck}
+
+                BoardAttributeChanger={BoardAttributeChanger}
+                BoardBackgroundChanger={BoardBackgroundChanger}
+
+                gradientAngle={gradientAngle}
+                setGradientAngle={setGradientAngle}
+
 
                 BoardSettingsWindow={BoardSettingsWindow}
             />
@@ -153,7 +219,6 @@ const BoardContainer = () => {
             <div className={`TutorialContainer ${isTutorial ? "On" : "Off"}`}>
                 <div className="TutorialBlur" onClick={TutorialWindow}></div>
                 <div className="TutorialWindow"
-                // style={{ backgroundImage: selectedBackgroundColor }}
                 >
 
                     <div className="TutorialCloseBtn" onClick={TutorialWindow}>X</div>
@@ -171,7 +236,7 @@ const BoardContainer = () => {
             </div>
 
             <div className='BoardContainer'
-                style={{ backgroundImage: selectedBackgroundColor }}
+                style={{ backgroundImage: `${BoardAttributes.AttributeRadioChecked === "Plane" ? `linear-gradient(0deg, ${BoardAttributes.AttributeBackPlane}, ${BoardAttributes.AttributeBackPlane})` : `linear-gradient(${BoardAttributes.AttributeAngleGradient}deg, ${BoardAttributes.AttributeBackGradColorOne}, ${BoardAttributes.AttributeBackGradColorTwo})`}` }}
                 onClick={() => AllWindowsClose()} >
 
 
@@ -179,11 +244,11 @@ const BoardContainer = () => {
                     spellCheck="false"
                     className='BoardTitle'
                     style={{
-                        fontSize: `${boardTitleSize}px`,
-                        color: boardTitleColor,
-                        fontFamily: boardFontStyle
+                        fontSize: `${BoardAttributes.AttributeBoardTitleSize}px`,
+                        color: BoardAttributes.AttributeBoardTitleColor,
+                        fontFamily: BoardAttributes.AttributeBoardTitleStyle
                     }}
-                    value={boardTitle}
+                    value={BoardAttributes.AttributeBoardTitle}
                     onChange={(e) => setBoardTitle(e.target.value)}
                 />
 

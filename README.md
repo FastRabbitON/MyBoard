@@ -21,7 +21,7 @@ Project is not fully adjust to touch screen devices yet
 - Online https://mynoteboard.pl
    
 - Local:
-1. Download BuildVersion folder
+1. Download **build_Version** folder
 2. Rub by **index.html**
 
 

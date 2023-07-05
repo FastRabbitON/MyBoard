@@ -33,6 +33,9 @@ const BoardSettings = ({
   gradientAngle,
   setGradientAngle,
 
+  gradientType,
+  setGradientType,
+
   BoardAttributeChanger,
   BoardBackgroundChanger
 
@@ -72,7 +75,6 @@ const BoardSettings = ({
 
     console.log(value)
 
-
     if (value === "Plane") {
       BoardAttributeChanger("AttributeBackPlane", boardPlaneColor);
       BoardAttributeChanger("AttributeRadioChecked", value);
@@ -89,28 +91,17 @@ const BoardSettings = ({
   //GET COLORS FROM COLORPICKER
   const PickerChangePlane = (e) => {
     setBoardPlaneColor(e.hex)
-
-
     BoardAttributeChanger("AttributeBackPlane", boardPlaneColor);
-
-
   }
 
   const PickerChangeGradOne = (e) => {
     setBoardGradOneColor(e.hex)
-
-
     BoardBackgroundChanger(boardGradOneColor, boardGradTwoColor);
-
-
   }
 
   const PickerChangeGradTwo = (e) => {
     setBoardGradTwoColor(e.hex)
-
-
     BoardBackgroundChanger(boardGradOneColor, boardGradTwoColor);
-
   }
 
   const TitleColorChanger = (e) => {
@@ -138,6 +129,16 @@ const BoardSettings = ({
   }
 
 
+  const GradientTypeChanger = (e) => {
+
+    const value = e.target.value
+
+    setGradientType(value)
+    BoardAttributeChanger("AttributeGradientType", value)
+
+    console.log(value)
+
+  }
 
 
   return (
@@ -203,8 +204,49 @@ const BoardSettings = ({
 
             </form>
 
+          </div>
 
-            <div className="DimentionContainer">
+
+        </div>
+
+        <div className="SettingsSectionsContainer"
+          style={{
+            display: `${radioBackCheck === "Gradient" ? "flex" : "none"}`
+          }}
+        >
+
+          <div className="SettingsSectionsTitle">Gradient Settings</div>
+
+          <div className="SettingsSectionsContent">
+
+            <div className="FormGradientTypeTitle"> Gradient Type</div>
+
+            <div className="FormGradientType"
+              style={{
+                display: `${radioBackCheck === "Gradient" ? "flex" : "none"}`
+              }}
+            >
+              <form onChange={GradientTypeChanger}>
+                <div className='GradientTypeRadio'>
+                  <div>
+                    <input type="radio" id="GradRadial" name="gradtype" value="radial" checked={gradientType === "radial"} />
+                    <label for="GradRadial">Radial </label>
+                  </div>
+                  <div>
+                    <input type="radio" id="GradLinear" name="gradtype" value="linear" checked={gradientType === "linear"} />
+                    <label for="GradLinear">Linear</label>
+                  </div>
+                </div>
+              </form>
+
+            </div>
+
+
+            <div className="DimentionContainer"
+              style={{
+                display: `${radioBackCheck === "Gradient" && gradientType === "linear" ? "flex" : "none"}`
+              }}
+            >
               <div className='HorizontalSettings'>
                 Gradient Angle
                 <input
@@ -226,8 +268,8 @@ const BoardSettings = ({
 
             </div>
 
-          </div>
 
+          </div>
         </div>
 
         <div className="SettingsSectionsContainer">

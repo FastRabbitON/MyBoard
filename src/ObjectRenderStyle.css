@@ -164,6 +164,7 @@
     justify-content: flex-start;
     align-items: center;
     flex-direction: column;
+
 }
 
 
@@ -327,6 +328,32 @@
     background: rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease-in-out;
 } */
+
+
+.NoteContentListArea {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 85%;
+    height: fit-content;
+    min-height: 15%;
+    padding: 0.5rem;
+    font-size: 1.5rem;
+    margin-right: 0.5rem;
+    text-align: left;
+    border-radius: 0px;
+    background-color: transparent;
+    border: 0.2rem solid transparent;
+    transition: border 0.2s ease-in-out;
+    resize: none;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    overflow: hidden;
+}
+
+
+
+
 
 
 .ListContainer {

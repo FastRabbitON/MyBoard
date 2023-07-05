@@ -25,6 +25,7 @@ const BoardContainer = () => {
     const [boardGradTwoColor, setBoardGradTwoColor] = useState("#fc466b")
 
     const [gradientAngle, setGradientAngle] = useState(0)
+    const [gradientType, setGradientType] = useState("linear")
 
 
     const [renderObject, setRenderObject] = useState([])
@@ -50,6 +51,7 @@ const BoardContainer = () => {
                 AttributeBackGradColorTwo: "#fc466b",
                 AttributeAngleGradient: 90,
                 AttributeRadioChecked: "Plane",
+                AttributeGradientType: "linear"
             };
     });
 
@@ -116,7 +118,8 @@ const BoardContainer = () => {
             AttributeBackGradColorOne,
             AttributeBackGradColorTwo,
             AttributeAngleGradient,
-            AttributeRadioChecked
+            AttributeRadioChecked,
+            AttributeGradientType
         } = BoardAttributes;
 
         setBoardTitleSize(AttributeBoardTitleSize)
@@ -127,6 +130,7 @@ const BoardContainer = () => {
         setBoardGradTwoColor(AttributeBackGradColorTwo)
         setRadioBackCheck(AttributeRadioChecked)
         setGradientAngle(AttributeAngleGradient)
+        setGradientType(AttributeGradientType)
 
     }
 
@@ -187,6 +191,8 @@ const BoardContainer = () => {
                 gradientAngle={gradientAngle}
                 setGradientAngle={setGradientAngle}
 
+                gradientType={gradientType}
+                setGradientType={setGradientType}
 
                 BoardSettingsWindow={BoardSettingsWindow}
             />
@@ -236,7 +242,14 @@ const BoardContainer = () => {
             </div>
 
             <div className='BoardContainer'
-                style={{ backgroundImage: `${BoardAttributes.AttributeRadioChecked === "Plane" ? `linear-gradient(0deg, ${BoardAttributes.AttributeBackPlane}, ${BoardAttributes.AttributeBackPlane})` : `linear-gradient(${BoardAttributes.AttributeAngleGradient}deg, ${BoardAttributes.AttributeBackGradColorOne}, ${BoardAttributes.AttributeBackGradColorTwo})`}` }}
+                style={{
+                    backgroundImage: `${BoardAttributes.AttributeRadioChecked === "Plane"
+                        ? `linear-gradient(0deg, ${BoardAttributes.AttributeBackPlane}, ${BoardAttributes.AttributeBackPlane})`
+                        : BoardAttributes.AttributeGradientType === "linear"
+                            ? `linear-gradient(${BoardAttributes.AttributeAngleGradient}deg, ${BoardAttributes.AttributeBackGradColorOne}, ${BoardAttributes.AttributeBackGradColorTwo})`
+                            : `radial-gradient(circle, ${BoardAttributes.AttributeBackGradColorOne}, ${BoardAttributes.AttributeBackGradColorTwo})`
+                        }`
+                }}
                 onClick={() => AllWindowsClose()} >
 
 

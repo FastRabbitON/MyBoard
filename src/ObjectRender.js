@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Tooltip } from 'react-tooltip';
+import TextareaAutosize from 'react-textarea-autosize';
 
 
 import ObjectSettings from './ObjectSettings';
@@ -45,6 +46,10 @@ const ObjectRender = ({
     const [isShadow, setIsShadow] = useState(true)
 
     //Unique for Note
+    const [previousWidth, setPreviousWidth] = useState()
+    const [previousHeight, setPreviousHeight] = useState()
+
+    const [isMinimal, setIsMinimal] = useState(false)
     const [contentNote, setContentNote] = useState([]);
     const [nowActiveTitle, setNowActiveTitle] = useState("myNote")
 
@@ -100,6 +105,10 @@ const ObjectRender = ({
                 //Unique Attributes for Note
                 AttributeTitle: 'myNote',
                 AttributeNoteContent: [],
+                AttributeIsMinimal: false,
+                AttributePrevWidth: 350,
+                AttributePrevHeight: 400,
+                AttributePrevTitleSize: 20
             }
             console.log("Added Note");
             setRenderObject([...renderObject, NewObject])   //Rozpakowuje dotychzasową tablicę i dodaje do niej nowy obiekt z atrybutami
@@ -203,7 +212,7 @@ const ObjectRender = ({
 
     const GeneralAttributeChanger = (ID, AttributeToChange, Value) => {   // Do funkcji są przekazane parametry AttributeID,attr,vlue
 
-        console.log(ID, AttributeToChange, Value);
+        console.log(ID, AttributeToChange, Value)
 
         const updatedAttribute = renderObject.map((object) => {      // Tablica jest mapowana, i sprawdzana który z jej elementów ma AttributeID=AttributeID z parametrów przekazanych do funkcji (linia wyżej)
             if (object.AttributeID === ID) {
@@ -449,8 +458,32 @@ const ObjectRender = ({
     //Enter key FUNCTIONALITY
     const handleKeyDown = (event, id, contentNote) => {
         if (event.key === 'Enter') {
-            changeNoteContent(id, contentNote);
+            event.preventDefault();
+
+            if (typeof contentNote !== "object") {
+                changeNoteContent(id, contentNote);
+                console.log(typeof contentNote)
+            }
         }
+    };
+
+
+    const NoteContentEditor = (e, id, contentIndex) => {
+        const updatedContent = renderObject.map((note) => {
+            if (note.AttributeID === id) {
+                const updatedNoteContent = note.AttributeNoteContent.map((content, index) => {
+                    if (index === contentIndex) {
+                        return e.target.value; // Aktualizacja zawartości notatki na podstawie wprowadzonej wartości w polu tekstowym
+                    }
+                    return content;
+                });
+                return { ...note, AttributeNoteContent: updatedNoteContent };
+            }
+            return note;
+        });
+
+        setRenderObject(updatedContent);
+        localStorage.setItem('RenderObject', JSON.stringify(updatedContent));
     };
 
 
@@ -656,6 +689,13 @@ const ObjectRender = ({
         localStorage.setItem("RenderObject", JSON.stringify(updatedAttributes));
     }
 
+
+
+
+
+
+
+
     const SaveDate = () => {
         const json = JSON.stringify(renderObject, null, 2);
         const element = document.createElement('a');
@@ -680,6 +720,77 @@ const ObjectRender = ({
 
         reader.readAsText(file);
     };
+
+
+    const Minimalizer = (ID, Minimall, PrevWidth, PrevHeight, PrevTitleSize) => {
+
+        if (activeObjectSettings === true) {
+            setActiveObjectSettings(false)
+        }
+
+        if (Minimall === false) {
+
+            const updatedAttribute = renderObject.map((object) => {
+
+                if (object.AttributeID === ID) {
+
+                    return {
+                        ...object,
+                        ["AttributeIsMinimal"]: true,
+                        ["AttributePrevWidth"]: PrevWidth,
+                        ["AttributePrevHeight"]: PrevHeight,
+                        ["AttributePrevTitleSize"]: PrevTitleSize,
+
+                        ["AttributeHeight"]: 50,
+                        ["AttributeWidth"]: 200,
+                        ["AttributeTitleSize"]: 15
+                    };
+
+                }
+
+                return object
+            })
+
+            setRenderObject(updatedAttribute);
+            localStorage.setItem('RenderObject', JSON.stringify(updatedAttribute)); //Aktualizacja LocalStore
+
+        }
+
+        if (Minimall === true) {
+
+
+            const GetAttributes = renderObject.find(object => object.AttributeID === ID);
+            if (GetAttributes) {
+
+                const { AttributePrevWidth, AttributePrevHeight, AttributePrevTitleSize } = GetAttributes;
+
+                const updatedAttribute = renderObject.map((object) => {
+
+                    if (object.AttributeID === ID) {
+
+                        return {
+                            ...object,
+                            ["AttributeIsMinimal"]: false,
+                            ["AttributeHeight"]: AttributePrevHeight,
+                            ["AttributeWidth"]: AttributePrevWidth,
+                            ["AttributeTitleSize"]: AttributePrevTitleSize
+                        };
+
+                    }
+
+                    return object
+                })
+
+                setRenderObject(updatedAttribute);
+                localStorage.setItem('RenderObject', JSON.stringify(updatedAttribute)); //Aktualizacja LocalStore
+
+
+            }
+
+        }
+
+    };
+
 
 
     return (
@@ -829,7 +940,9 @@ const ObjectRender = ({
                             boxShadow: `${note.AttributeShadow ? `8px 8px 24px 0px ${note.AttributeAccentColor}` : "0px 0px 0px 0px black"} `,
                             zIndex: note.AttributeLayer,
                             position: 'absolute',
-                            rotate: `${note.AttributeAngle}deg`
+                            rotate: `${note.AttributeAngle}deg`,
+                            minHeight: `${note.AttributeIsMinimal === false ? "200px" : "50px"}`,
+
                         }}>
 
 
@@ -847,20 +960,56 @@ const ObjectRender = ({
                                 </div>
                             </button>
 
+                            <div className='RemoveNoteBtn'
+                                style={{
+                                    cursor: "default",
+                                    display: `${note.AttributeIsMinimal === false ? "flex" : "none"}`,
+                                }}></div>
+
+
                             <div className="MoveNote"
                                 onMouseDown={(event) => MouseDownForMove(event, note.AttributeID)}
                                 style={{
                                     borderLeft: `0.1rem solid ${note.AttributeAccentColor}`,
                                     borderRight: `0.1rem solid ${note.AttributeAccentColor}`,
                                     borderBottom: `0.1rem solid ${note.AttributeAccentColor}`,
+                                    height: `${note.AttributeIsMinimal === false ? "100%" : "75%"}`,
 
                                 }}>
-                                <div style={{ color: note.AttributeAccentColor, fontFamily: note.AttributeFontStyle, userSelect: 'none', }}>Move Me</div>
+                                <div
+                                    style={{
+                                        color: note.AttributeAccentColor,
+                                        fontFamily: note.AttributeFontStyle,
+                                        userSelect: 'none',
+                                        fontSize: `${note.AttributeIsMinimal === false ? "16px" : "10px"}`,
+                                    }}>Move Me
+                                </div>
                             </div>
 
-                            <button className='SettingsNoteBtn' onClick={() => SettingsWindow(note.AttributeID, note.AttributeObjectType, note.AttributeTitle)} >
+                            <button className='SettingsNoteBtn'
+                                onClick={() => Minimalizer(note.AttributeID, note.AttributeIsMinimal, note.AttributeWidth, note.AttributeHeight, note.AttributeTitleSize)}
+                                data-tooltip-id="TT-CloseObjectBtn"
+                                data-tooltip-content="Minimalize"
+                                data-tooltip-place="top"
+                            >
                                 <div
-                                    style={{ color: note.AttributeAccentColor, fontFamily: note.AttributeFontStyle }}
+                                    style={{ color: note.AttributeAccentColor, fontFamily: note.AttributeFontStyle, userSelect: 'none', }}
+                                >-</div>
+
+
+                            </button>
+
+
+                            <button className='SettingsNoteBtn'
+                                onClick={() => SettingsWindow(note.AttributeID, note.AttributeObjectType, note.AttributeTitle)}
+                                style={{
+                                    display: `${note.AttributeIsMinimal === false ? "block" : "none"}`,
+                                }} >
+                                <div
+                                    style={{
+                                        color: note.AttributeAccentColor,
+                                        fontFamily: note.AttributeFontStyle
+                                    }}
                                     data-tooltip-id="TT-SettingsObjectBtn"
                                     data-tooltip-content="Settings"
                                     data-tooltip-place="top"
@@ -868,6 +1017,8 @@ const ObjectRender = ({
                             </button>
 
                         </div>
+
+
 
 
                         <div className="TitleContainer">
@@ -879,7 +1030,7 @@ const ObjectRender = ({
                                 style={{
                                     color: note.AttributeFontColor,
                                     fontSize: `${note.AttributeTitleSize}px`,
-                                    borderBottom: `0.1rem solid ${note.AttributeAccentColor}`,
+                                    borderBottom: `${note.AttributeIsMinimal === false ? `0.1rem solid ${note.AttributeAccentColor}` : "none"}`,
                                     fontFamily: note.AttributeFontStyle
                                 }}
                                 value={note.AttributeTitle}
@@ -888,7 +1039,13 @@ const ObjectRender = ({
 
                         </div>
 
-                        <div className="AddNewContainer" style={{ borderBottom: `0.1rem solid ${note.AttributeAccentColor}`, height: `${note.AttributeContentSize}px` }}>
+                        <div className="AddNewContainer"
+                            style={{
+                                display: `${note.AttributeIsMinimal === false ? "flex" : "none"}`,
+                                borderBottom: `0.1rem solid ${note.AttributeAccentColor}`,
+                                height: `${note.AttributeContentSize}px`
+                            }}
+                        >
 
                             <textarea
                                 placeholder='Enter something...'
@@ -896,6 +1053,7 @@ const ObjectRender = ({
                                 spellCheck="false"
                                 type="text"
                                 style={{
+
                                     color: note.AttributeFontColor,
                                     fontSize: `${note.AttributeContentSize}px`,
                                     fontFamily: note.AttributeFontStyle,
@@ -911,7 +1069,12 @@ const ObjectRender = ({
                         </div>
 
 
-                        <div className="ListContainer">
+                        <div className="ListContainer"
+                            style={{
+                                display: `${note.AttributeIsMinimal === false ? "flex" : "none"}`,
+                            }}
+
+                        >
 
                             <ul>
                                 {note.AttributeNoteContent.map((content, index) => (
@@ -924,7 +1087,28 @@ const ObjectRender = ({
                                             fontFamily: note.AttributeFontStyle,
                                         }}>
 
-                                        {content}
+
+
+                                        <TextareaAutosize
+                                            className='NoteContentListArea'
+                                            type="text"
+                                            value={content}
+                                            onChange={(e) => NoteContentEditor(e, note.AttributeID, index)}
+                                            spellCheck="false"
+                                            minRows={1}
+                                            style={{
+                                                color: note.AttributeFontColor,
+                                                fontSize: `${note.AttributeContentSize}px`,
+                                                fontFamily: note.AttributeFontStyle,
+
+                                            }}
+                                            data-tooltip-id="TT-CloseObjectBtn"
+                                            data-tooltip-content="Edit"
+                                            data-tooltip-place="top-start"
+
+                                        />
+
+                                        {/* {content} */}
 
 
                                         <div>
@@ -978,10 +1162,17 @@ const ObjectRender = ({
                         <div className="ResizeNote"
                             onMouseDown={(event) => MouseDownForResize(event, note.AttributeID)}
                             style={{
+                                display: `${note.AttributeIsMinimal === false ? "flex" : "none"}`,
                                 borderLeft: `0.1rem solid ${note.AttributeAccentColor}`,
                                 borderTop: `0.1rem solid ${note.AttributeAccentColor}`
                             }}>
-                            <div style={{ color: note.AttributeAccentColor, fontFamily: note.AttributeFontStyle, userSelect: 'none' }}>⤡</div>
+                            <div
+                                style={{
+                                    color: note.AttributeAccentColor,
+                                    fontFamily: note.AttributeFontStyle,
+                                    userSelect: 'none'
+                                }}>⤡</div>
+
                         </div>
 
                     </div>

@@ -315,7 +315,7 @@
 
 .FormGradientType {
     margin-top: 0.5rem;
-    width: 100%;
+    width: 85%;
     display: flex;
     justify-content: flex-start;
     align-items: center;
@@ -344,4 +344,35 @@
 .GradientTypeRadio label {
     font-size: 1.8rem;
     color: white;
+}
+
+
+.ImageSettingsContainer {
+    margin-top: 1rem;
+    font-size: 1.8rem;
+    width: 85%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    color: white;
+}
+
+.ImageSettingsContainer input {
+    margin-right: 0.5rem;
+    font-size: 1.8rem;
+}
+
+.ImageSettingsContainer label {
+    font-size: 1.8rem;
+    color: white;
+}
+
+.ImageSelectBtn {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+
 }

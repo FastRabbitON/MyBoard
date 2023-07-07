@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { ChromePicker } from 'react-color';
 
 const BoardSettings = ({
@@ -30,6 +30,9 @@ const BoardSettings = ({
   boardGradTwoColor,
   setBoardGradTwoColor,
 
+  boardImage,
+  setBoardImage,
+
   gradientAngle,
   setGradientAngle,
 
@@ -37,7 +40,13 @@ const BoardSettings = ({
   setGradientType,
 
   BoardAttributeChanger,
-  BoardBackgroundChanger
+  BoardBackgroundChanger,
+
+  isImageOn,
+  setIsImageOn,
+
+  imageFitType,
+  setImageFitType,
 
 }) => {
 
@@ -73,8 +82,6 @@ const BoardSettings = ({
     const value = event.target.value;
     setRadioBackCheck(value);
 
-    console.log(value)
-
     if (value === "Plane") {
       BoardAttributeChanger("AttributeBackPlane", boardPlaneColor);
       BoardAttributeChanger("AttributeRadioChecked", value);
@@ -85,6 +92,10 @@ const BoardSettings = ({
       BoardAttributeChanger("AttributeRadioChecked", value);
     }
 
+    if (value === "Image") {
+      BoardAttributeChanger("AttributeRadioChecked", value);
+
+    }
   };
 
 
@@ -130,15 +141,40 @@ const BoardSettings = ({
 
 
   const GradientTypeChanger = (e) => {
-
     const value = e.target.value
-
-    setGradientType(value)
     BoardAttributeChanger("AttributeGradientType", value)
+  }
 
-    console.log(value)
+
+  const ImageOnChanger = (e) => {
+    const state = e.target.checked
+    setIsImageOn(state)
+    BoardAttributeChanger("AttributeIsImageOn", state)
 
   }
+
+  const handleImageUpload = (event) => {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      const imageData = reader.result;
+      setBoardImage(imageData);
+      BoardAttributeChanger("AttributeImageUrl", imageData)
+    };
+
+    if (file) {
+      reader.readAsDataURL(file);
+    }
+  }
+
+
+  const ImageFitTypeChanger = (e) => {
+    const value = e.target.value
+    setImageFitType(value)
+    BoardAttributeChanger("AttrbuteImageFitType", value)
+  }
+
 
 
   return (
@@ -271,6 +307,42 @@ const BoardSettings = ({
 
           </div>
         </div>
+
+
+        <div className="SettingsSectionsContainer">
+
+          <div className="SettingsSectionsTitle">Background Image</div>
+
+          <div className="SettingsSectionsContent">
+
+            <div className="ImageSettingsContainer">
+              <input type="checkbox" id="ImageOn" onChange={ImageOnChanger} checked={isImageOn} />
+              <label for="ImageOn"> Display Image </label>
+            </div>
+
+            <input id='ImageUpdate' type="file" onChange={handleImageUpload} accept="image/*" hidden />
+            <label className="ImageUpdate" htmlFor="ImageUpdate">Upload Image</label>
+          </div>
+
+          <div className="FormGradientType">
+
+            <form onChange={ImageFitTypeChanger}>
+              <div className='GradientTypeRadio'>
+                <div>
+                  <input type="radio" id="ScaledownType" name="fittype" value="scale-down" checked={imageFitType === "scale-down"} />
+                  <label for="ScaledownType">Keep Ratio</label>
+                </div>
+                <div>
+                  <input type="radio" id="FillType" name="fittype" value="fill" checked={imageFitType === "fill"} />
+                  <label for="FillType">Full Screen</label>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+
+
+
 
         <div className="SettingsSectionsContainer">
 

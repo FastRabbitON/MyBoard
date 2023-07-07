@@ -304,7 +304,6 @@ const ObjectRender = ({
             setActiveBoardSettings(false)
         }
 
-        console.log(renderObject);
     }
 
 
@@ -462,7 +461,6 @@ const ObjectRender = ({
 
             if (typeof contentNote !== "object") {
                 changeNoteContent(id, contentNote);
-                console.log(typeof contentNote)
             }
         }
     };
@@ -658,8 +656,6 @@ const ObjectRender = ({
                 .then(apiInformation => apiInformation.json())
                 .then(weatherApiInfo => {
                     setWeatherApiInfo(weatherApiInfo);
-                    console.log(weatherApiInfo);
-
 
                     const TemperatureInfo = weatherApiInfo.main.temp;
                     const WindInfo = weatherApiInfo.wind.speed;
@@ -667,12 +663,7 @@ const ObjectRender = ({
                     const PressureInfo = weatherApiInfo.main.pressure;
                     const IcoInfo = weatherApiInfo.weather[0].icon;
 
-                    console.log(IcoInfo)
-
                     WeatherChanger(ID, TemperatureInfo, WindInfo, HumidityInfo, PressureInfo, Place, IcoInfo);
-
-
-
                 })
                 .catch(errThree => alert(errThree));
         }
@@ -714,7 +705,7 @@ const ObjectRender = ({
                 const jsonData = JSON.parse(event.target.result);
                 setRenderObject(jsonData);
             } catch (error) {
-                console.error('Błąd podczas parsowania pliku JSON:', error);
+                alert('Error with JSON file update:', error);
             }
         };
 

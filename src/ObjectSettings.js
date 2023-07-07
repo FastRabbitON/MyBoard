@@ -118,7 +118,6 @@ const ObjectSettings = ({
         const shadow = !isShadow
         setIsShadow(shadow)
         GeneralAttributeChanger(nowActiveObjectID, 'AttributeShadow', shadow);
-        console.log(shadow)
     }
 
     const TitleSizeChanger = (event) => {

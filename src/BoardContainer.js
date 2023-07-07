@@ -19,13 +19,15 @@ const BoardContainer = () => {
     const [boardFontStyle, setBoardFontStyle] = useState()
 
     const [boardPlaneColor, setBoardPlaneColor] = useState("#b7b6bb")
-
     const [boardGradOneColor, setBoardGradOneColor] = useState("#3f5efb")
-
     const [boardGradTwoColor, setBoardGradTwoColor] = useState("#fc466b")
+    const [boardImage, setBoardImage] = useState(null)
 
     const [gradientAngle, setGradientAngle] = useState(0)
     const [gradientType, setGradientType] = useState("linear")
+
+    const [isImageOn, setIsImageOn] = useState(false)
+    const [imageFitType, setImageFitType] = useState("scale-down")
 
 
     const [renderObject, setRenderObject] = useState([])
@@ -51,7 +53,10 @@ const BoardContainer = () => {
                 AttributeBackGradColorTwo: "#fc466b",
                 AttributeAngleGradient: 90,
                 AttributeRadioChecked: "Plane",
-                AttributeGradientType: "linear"
+                AttributeGradientType: "linear",
+                AttributeImageUrl: null,
+                AttributeIsImageOn: false,
+                AttrbuteImageFitType: "scale-down"
             };
     });
 
@@ -119,7 +124,9 @@ const BoardContainer = () => {
             AttributeBackGradColorTwo,
             AttributeAngleGradient,
             AttributeRadioChecked,
-            AttributeGradientType
+            AttributeGradientType,
+            AttributeIsImageOn,
+            AttrbuteImageFitType
         } = BoardAttributes;
 
         setBoardTitleSize(AttributeBoardTitleSize)
@@ -131,6 +138,8 @@ const BoardContainer = () => {
         setRadioBackCheck(AttributeRadioChecked)
         setGradientAngle(AttributeAngleGradient)
         setGradientType(AttributeGradientType)
+        setIsImageOn(AttributeIsImageOn)
+        setImageFitType(AttrbuteImageFitType)
 
     }
 
@@ -149,6 +158,11 @@ const BoardContainer = () => {
             setIsAddMenuOpen(false)
         }
     }
+
+
+
+
+
 
 
 
@@ -188,6 +202,12 @@ const BoardContainer = () => {
                 BoardAttributeChanger={BoardAttributeChanger}
                 BoardBackgroundChanger={BoardBackgroundChanger}
 
+
+                boardImage={boardImage}
+                setBoardImage={setBoardImage}
+
+
+
                 gradientAngle={gradientAngle}
                 setGradientAngle={setGradientAngle}
 
@@ -195,7 +215,17 @@ const BoardContainer = () => {
                 setGradientType={setGradientType}
 
                 BoardSettingsWindow={BoardSettingsWindow}
+
+                isImageOn={isImageOn}
+                setIsImageOn={setIsImageOn}
+
+                imageFitType={imageFitType}
+                setImageFitType={setImageFitType}
             />
+
+
+
+
 
             <button
                 className='SettingsBoardBtn'
@@ -218,7 +248,7 @@ const BoardContainer = () => {
                 i
             </button>
 
-            {/* <button className='ClearAllBtn'>X</button> */}
+
 
             <Tooltip id="TT-BottomBtn" />
 
@@ -251,6 +281,18 @@ const BoardContainer = () => {
                         }`
                 }}
                 onClick={() => AllWindowsClose()} >
+
+
+
+                {(BoardAttributes.AttributeImageUrl && BoardAttributes.AttributeIsImageOn === true) ?
+                    (<img className='SelectedImage'
+                        style={{
+                            objectFit: BoardAttributes.AttrbuteImageFitType
+                        }}
+                        src={BoardAttributes.AttributeImageUrl}
+                        alt="UPLOAD PHOTO" />)
+                    : null}
+
 
 
                 <input type="text"
